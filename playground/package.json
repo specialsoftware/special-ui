@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "5.2.8",
     "@special-ui/react": "workspace:*",
     "react": "19.2.5",
     "react-dom": "19.2.5"

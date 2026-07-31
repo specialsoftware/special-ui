@@ -54,7 +54,7 @@ function useShallowStable<T extends Record<string, unknown>>(value: T): T {
  * everything else — accessibility, focus management, state, `render`,
  * `data-*` attributes — to the Base UI component underneath:
  *
- * 1. Pulls variant props (`size`, `tone`, ...) out of the props object so they
+ * 1. Pulls variant props (`size`, `variant`, ...) out of the props object so they
  *    never reach the DOM as invalid attributes.
  * 2. Fills in any variant the consumer omitted from the parent's context.
  * 3. Computes the built-in classes for this slot.

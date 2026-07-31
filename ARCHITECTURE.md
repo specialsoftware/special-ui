@@ -268,16 +268,24 @@ and add a Tailwind-first styling layer.
 ```
 packages/react/src/
   styles/
-    cn.ts                     clsx + tailwind-merge
-    variants.ts               defineVariants / defineSlots
-  theme.css                   design tokens (@theme inline)
+    cn.ts                       clsx + tailwind-merge, plus custom class groups
+    variants.ts                 defineVariants / defineSlots
+  theme.css                     design tokens (@theme + @theme inline)
   internals/
-    createStyledPart.tsx      the wrapper factory
+    createStyledPart.tsx        the wrapper factory
     resolveClassName.ts
   provider/
-    SpecialUIProvider.tsx     themed portal container
-  button/  switch/  dialog/   the components
+    SpecialUIProvider.tsx       themed portal container
+  button/ switch/ text/ dialog/ the components
 ```
+
+The design language is Swiss/editorial: monochrome, hairline-ruled, typographic.
+That choice shows up in the architecture in two places worth naming. Light and
+dark are a single *inverted token pair* (`--color-accent` / `--color-accent-fg`
+swap wholesale), which is why no component in the library contains a `dark:`
+variant. And the type scale is expressed as named roles (`text-display`,
+`text-body`, `text-eyebrow`) rather than a numeric ramp, which is what stops a
+system drifting into fourteen almost-identical heading sizes.
 
 ### `cn()` — why a plain concat is not enough
 
@@ -290,11 +298,27 @@ So every class string is resolved through `twMerge` before it reaches Base UI.
 `cn('px-4', 'px-6') === 'px-6'`. That single guarantee is what makes
 `<Button className="px-6">` mean what it looks like it means.
 
-Custom utilities need registering, or `twMerge` cannot know they conflict:
+Custom utilities need registering, or `twMerge` cannot know they conflict. This
+is the sharpest recurring edge in a Tailwind-first library, and it fails
+*silently* — both classes survive and CSS source order picks the winner:
 
 ```ts
-extendTailwindMerge({ extend: { classGroups: { shadow: [{ shadow: ['elevated', 'overlay'] }] } } })
+extendTailwindMerge({
+  extend: {
+    classGroups: {
+      'rounded': [{ rounded: ['control', 'surface'] }],
+      'font-size': [{ text: ['eyebrow', 'caption', 'label', 'body', 'heading', 'title', 'display'] }],
+      'shadow': [{ shadow: ['overlay'] }],
+      'duration': [{ duration: ['fast', 'normal'] }],
+      'ease': [{ ease: ['editorial'] }],
+    },
+  },
+});
 ```
+
+Colour tokens (`bg-bg`, `text-fg-muted`) need no registration — twMerge's colour
+groups accept any name. Anything validated against a *scale* does: radii, font
+sizes, shadows, durations, easings. `variants.test.ts` asserts each one.
 
 ### `defineVariants` / `defineSlots`
 
@@ -349,7 +373,13 @@ effect whatsoever. `inline` inlines the reference into each utility instead, so
 `bg-surface` compiles to `background-color: var(--su-surface)` and resolves
 against whichever element it lands on.
 
-**Trap 2: portals escape scoped themes.** Base UI mounts popups on
+**Trap 2: a scrim derived from the foreground inverts.** `bg-fg/25` looks
+reasonable and is wrong: in dark mode the foreground is white, so the backdrop
+becomes a white wash that *lightens* the page behind the dialog. Overlay scrims
+get their own `--color-scrim` token, always dark, and darker in dark mode where
+a dark panel needs more separation from a dark canvas.
+
+**Trap 3: portals escape scoped themes.** Base UI mounts popups on
 `document.body`, which is outside a scoped `<div className="dark">`. A dialog
 opened from a dark subtree renders with light tokens. Either put the theme class
 on `<html>`, or use `SpecialUIProvider`, which renders a themed container on

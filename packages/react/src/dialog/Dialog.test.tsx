@@ -50,7 +50,7 @@ describe('Dialog', () => {
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
     const popup = screen.getByTestId('popup');
-    expect(popup).toHaveClass('rounded-surface', 'bg-surface-raised', 'shadow-overlay');
+    expect(popup).toHaveClass('rounded-surface', 'bg-bg', 'border-line', 'shadow-overlay');
     expect(popup).toHaveClass('max-w-xl');
   });
 
@@ -74,14 +74,14 @@ describe('Dialog', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('styles Close with the neutral button tone by default', async () => {
+  it('styles Close with the secondary button variant by default', async () => {
     const user = userEvent.setup();
     render(<TestDialog />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
     const close = screen.getByRole('button', { name: 'Cancel' });
     expect(close).toHaveClass('rounded-control', 'border-line');
-    expect(close).not.toHaveClass('bg-brand-600');
+    expect(close).not.toHaveClass('bg-accent');
   });
 
   it('renders the Footer part, which has no Base UI counterpart', async () => {

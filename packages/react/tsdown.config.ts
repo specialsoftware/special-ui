@@ -5,6 +5,7 @@ export default defineConfig({
     'src/index.ts',
     'src/button/index.ts',
     'src/switch/index.ts',
+    'src/text/index.ts',
     'src/dialog/index.ts',
     'src/styles/index.ts',
     'src/provider/index.ts',

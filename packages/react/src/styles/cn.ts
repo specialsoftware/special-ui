@@ -12,9 +12,22 @@ import { extendTailwindMerge } from 'tailwind-merge';
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      // `shadow-elevated` / `shadow-overlay` are custom shadows from theme.css.
-      // Without this they would not conflict with Tailwind's own `shadow-*`.
-      'shadow': [{ shadow: ['elevated', 'overlay'] }],
+      // `shadow-overlay` is the one custom shadow in theme.css. Without this
+      // it would not conflict with Tailwind's own `shadow-*`.
+      'shadow': [{ shadow: ['overlay'] }],
+      // The editorial type scale replaces Tailwind's numeric sizes. These must
+      // be registered or `text-body` and `text-lg` would both survive a merge —
+      // and so would `text-title` and `text-fg-muted`, since twMerge cannot
+      // otherwise tell a size token from a color token.
+      'font-size': [{ text: ['eyebrow', 'caption', 'label', 'body', 'heading', 'title', 'display'] }],
+      // Without this, `cn('rounded-control', 'rounded-full')` keeps *both*
+      // classes: twMerge validates `rounded-*` against Tailwind's own scale,
+      // and `control`/`surface` are not in it. A consumer overriding the radius
+      // would then be at the mercy of CSS source order.
+      'rounded': [{ rounded: ['control', 'surface'] }],
+      // Same reasoning for the named motion tokens, which are not numbers.
+      'duration': [{ duration: ['fast', 'normal'] }],
+      'ease': [{ ease: ['editorial'] }],
     },
   },
 });

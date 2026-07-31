@@ -30,14 +30,14 @@ describe('Switch', () => {
     const { root, thumb } = renderSwitch({ size: 'lg' });
 
     expect(root).toHaveClass('h-7', 'w-13');
-    expect(thumb).toHaveClass('size-6', 'data-checked:translate-x-6');
+    expect(thumb).toHaveClass('size-[1.625rem]', 'data-checked:translate-x-6');
   });
 
   it('falls back to the default variant when none is given', () => {
     const { root, thumb } = renderSwitch();
 
     expect(root).toHaveClass('h-6', 'w-11');
-    expect(thumb).toHaveClass('size-5');
+    expect(thumb).toHaveClass('size-[1.375rem]');
   });
 
   it('lets a part override the inherited variant', () => {
@@ -48,13 +48,15 @@ describe('Switch', () => {
     );
 
     expect(screen.getByRole('switch')).toHaveClass('h-5', 'w-9');
-    expect(screen.getByTestId('thumb')).toHaveClass('size-6');
+    expect(screen.getByTestId('thumb')).toHaveClass('size-[1.625rem]');
   });
 
-  it('applies the tone variant to the root only', () => {
-    const { root, thumb } = renderSwitch({ tone: 'danger' });
+  it('applies the variant to both slots as declared', () => {
+    const { root, thumb } = renderSwitch({ variant: 'danger' });
 
     expect(root).toHaveClass('data-checked:bg-danger');
+    expect(thumb).toHaveClass('data-checked:bg-danger-fg');
+    // The root's own colour must not leak onto the thumb.
     expect(thumb).not.toHaveClass('data-checked:bg-danger');
   });
 
@@ -86,10 +88,10 @@ describe('Switch', () => {
   });
 
   it('does not leak variant props onto the DOM', () => {
-    const { root, thumb } = renderSwitch({ size: 'lg', tone: 'neutral' });
+    const { root, thumb } = renderSwitch({ size: 'lg', variant: 'danger' });
 
     expect(root).not.toHaveAttribute('size');
-    expect(root).not.toHaveAttribute('tone');
+    expect(root).not.toHaveAttribute('variant');
     expect(thumb).not.toHaveAttribute('size');
   });
 });

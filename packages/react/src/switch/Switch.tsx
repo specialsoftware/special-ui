@@ -7,36 +7,46 @@ import type { VariantPropsOf } from '../internals/types';
 export const switchStyles = defineSlots({
   slots: {
     root: [
-      'relative inline-flex shrink-0 items-center rounded-full p-0.5',
-      'transition-colors duration-normal ease-emphasized',
-      'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500',
-      'data-disabled:pointer-events-none data-disabled:opacity-50',
+      'relative inline-flex shrink-0 items-center rounded-full p-px',
+      'transition-colors duration-normal ease-editorial',
+      'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+      'data-disabled:pointer-events-none data-disabled:opacity-40',
       // Base UI puts `data-unchecked` on the element when off, rather than
       // leaving the attribute absent. That means both states are addressable
       // without a `:not()` selector.
-      'data-unchecked:bg-line',
+      //
+      // Off is a hairline outline over the page, not a filled grey pill — the
+      // control should read as an empty field until it holds a value.
+      'data-unchecked:bg-bg-inset data-unchecked:inset-ring data-unchecked:inset-ring-line-strong',
     ],
     thumb: [
-      'block rounded-full bg-white shadow-xs',
-      'transition-transform duration-normal ease-emphasized',
+      'block rounded-full',
+      'transition-transform duration-normal ease-editorial',
       'data-unchecked:translate-x-0',
+      // Off is an ink knob on a paper field; on inverts to a paper knob on an
+      // ink field. Using the muted foreground rather than the page background
+      // is what keeps the knob visible in dark mode — `bg-bg` would make it
+      // exactly the canvas colour and it would read as a hole.
+      'data-unchecked:bg-fg-muted',
     ],
   },
   variants: {
     size: {
-      sm: { root: 'h-5 w-9', thumb: 'size-4 data-checked:translate-x-4' },
-      md: { root: 'h-6 w-11', thumb: 'size-5 data-checked:translate-x-5' },
-      lg: { root: 'h-7 w-13', thumb: 'size-6 data-checked:translate-x-6' },
+      // One px of padding, so the thumb travels the full track minus its own
+      // width: 36 - 2 - 18 = 16.
+      sm: { root: 'h-5 w-9', thumb: 'size-[1.125rem] data-checked:translate-x-4' },
+      md: { root: 'h-6 w-11', thumb: 'size-[1.375rem] data-checked:translate-x-5' },
+      lg: { root: 'h-7 w-13', thumb: 'size-[1.625rem] data-checked:translate-x-6' },
     },
-    tone: {
-      brand: { root: 'data-checked:bg-brand-600' },
-      neutral: { root: 'data-checked:bg-content' },
-      danger: { root: 'data-checked:bg-danger' },
+    variant: {
+      /** On is the inverted foreground — the same token the primary button uses. */
+      primary: { root: 'data-checked:bg-accent', thumb: 'data-checked:bg-accent-fg' },
+      danger: { root: 'data-checked:bg-danger', thumb: 'data-checked:bg-danger-fg' },
     },
   },
   defaultVariants: {
     size: 'md',
-    tone: 'brand',
+    variant: 'primary',
   },
 });
 
@@ -58,7 +68,7 @@ export const SwitchRoot = createStyledPart<SwitchRootProps>(BaseSwitch.Root, swi
 });
 
 /**
- * The moving knob. Inherits `size` and `tone` from `Switch.Root`, but either
+ * The moving knob. Inherits `size` and `variant` from `Switch.Root`, but either
  * can still be overridden per-part.
  */
 export const SwitchThumb = createStyledPart<SwitchThumbProps>(

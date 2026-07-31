@@ -64,13 +64,13 @@ function normalize(value: unknown): string | undefined {
  * const button = defineVariants({
  *   base: 'inline-flex items-center rounded-md',
  *   variants: {
- *     tone: { neutral: 'bg-neutral-900 text-white', ghost: 'bg-transparent' },
+ *     variant: { primary: 'bg-accent text-accent-fg', ghost: 'bg-transparent' },
  *     size: { sm: 'h-8 px-3', md: 'h-10 px-4' },
  *   },
- *   defaultVariants: { tone: 'neutral', size: 'md' },
+ *   defaultVariants: { variant: 'primary', size: 'md' },
  * });
  *
- * button({ size: 'sm' }); // -> "inline-flex items-center rounded-md bg-neutral-900 text-white h-8 px-3"
+ * button({ size: 'sm' }); // -> "inline-flex items-center rounded-md bg-accent text-accent-fg h-8 px-3"
  * ```
  */
 export function defineVariants<V extends VariantMap>(config: VariantsConfig<V>): VariantsFn<V> {
@@ -135,7 +135,7 @@ export interface SlotsConfig<S extends SlotMap, V extends SlotVariantMap<S>> {
 /**
  * The multi-part counterpart of {@link defineVariants}, for compound components.
  *
- * One variant selection (`size`, `tone`, ...) drives the classes of every part
+ * One variant selection (`size`, `variant`, ...) drives the classes of every part
  * at once, which is exactly what a compound component needs: `<Switch size="lg">`
  * has to resize both the track and the thumb, but the consumer should only say
  * it once.

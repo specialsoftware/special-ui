@@ -12,8 +12,8 @@ import { buttonStyles } from '../button/Button';
 export const dialogStyles = defineSlots({
   slots: {
     backdrop: [
-      'fixed inset-0 z-50 bg-black/40 backdrop-blur-xs',
-      'transition-opacity duration-normal ease-emphasized',
+      'fixed inset-0 z-50 bg-scrim',
+      'transition-opacity duration-normal ease-editorial',
       // Base UI keeps the element mounted through its exit animation and marks
       // the two ends of the transition with `data-starting-style` /
       // `data-ending-style`. Styling those two attributes is the entire
@@ -22,18 +22,26 @@ export const dialogStyles = defineSlots({
     ],
     popup: [
       'fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2',
-      'flex w-[calc(100vw-2rem)] flex-col gap-4 outline-none',
-      'rounded-surface bg-surface-raised p-6 text-content shadow-overlay',
-      'transition-[opacity,transform] duration-normal ease-emphasized',
-      'data-[starting-style]:scale-95 data-[starting-style]:opacity-0',
-      'data-[ending-style]:scale-95 data-[ending-style]:opacity-0',
+      'flex w-[calc(100vw-2rem)] flex-col outline-none',
+      // Hairline border *and* the one shadow in the system. The border is what
+      // keeps the panel legible against a dark canvas, where a shadow alone
+      // reads as nothing at all.
+      'rounded-surface border border-line bg-bg p-6 shadow-overlay',
+      'transition-[opacity,translate,scale] duration-normal ease-editorial',
+      // A short rise rather than a scale. Editorial interfaces should not
+      // appear to zoom.
+      'data-[starting-style]:translate-y-[calc(-50%+0.5rem)] data-[starting-style]:opacity-0',
+      'data-[ending-style]:translate-y-[calc(-50%+0.5rem)] data-[ending-style]:opacity-0',
       // Respect the user's motion preference. A design system should do this
       // once, centrally, rather than leaving it to each consumer.
-      'motion-reduce:transition-none motion-reduce:data-[starting-style]:scale-100 motion-reduce:data-[ending-style]:scale-100',
+      'motion-reduce:transition-none',
+      'motion-reduce:data-[starting-style]:translate-y-[-50%] motion-reduce:data-[ending-style]:translate-y-[-50%]',
     ],
-    title: 'text-lg font-semibold tracking-tight text-content',
-    description: 'text-sm text-content-muted',
-    footer: 'mt-2 flex flex-row-reverse gap-2',
+    title: 'text-heading text-fg',
+    description: 'mt-2 text-body text-fg-muted',
+    // Separated by a hairline rather than whitespace alone, and pulled to the
+    // panel edges so the rule spans the full width.
+    footer: 'mt-6 -mx-6 -mb-6 flex flex-row-reverse gap-2 border-t border-line px-6 py-4',
   },
   variants: {
     size: {
@@ -118,14 +126,14 @@ export const DialogDescription = createStyledPart<DialogDescriptionProps>(
 );
 
 /**
- * Reuses the button's variants but flips the default tone, since a dismiss
- * action should not be the loudest thing in the dialog. Re-defaulting a
- * variants function this way keeps the two components from drifting apart
- * while still letting a consumer write `<Dialog.Close tone="danger">`.
+ * Reuses the button's variants but flips the default, since a dismiss action
+ * should not be the loudest thing in the dialog. Re-defaulting a variants
+ * function this way keeps the two components from drifting apart while still
+ * letting a consumer write `<Dialog.Close variant="danger">`.
  */
 const closeStyles = Object.assign(
   (props?: VariantPropsOf<typeof buttonStyles> & { class?: string }) =>
-    buttonStyles({ tone: 'neutral', ...props }),
+    buttonStyles({ variant: 'secondary', ...props }),
   { variantKeys: buttonStyles.variantKeys },
 );
 

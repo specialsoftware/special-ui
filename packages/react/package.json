@@ -4,8 +4,13 @@
   "description": "A Tailwind-first React component library built on Base UI primitives.",
   "license": "MIT",
   "type": "module",
-  "sideEffects": ["*.css"],
-  "files": ["dist", "src"],
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -18,6 +23,10 @@
     "./switch": {
       "types": "./dist/switch/index.d.ts",
       "default": "./dist/switch/index.js"
+    },
+    "./text": {
+      "types": "./dist/text/index.d.ts",
+      "default": "./dist/text/index.js"
     },
     "./dialog": {
       "types": "./dist/dialog/index.d.ts",

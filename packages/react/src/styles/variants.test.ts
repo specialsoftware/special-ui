@@ -15,8 +15,21 @@ describe('cn', () => {
   it('treats the custom shadow group as conflicting with Tailwind shadows', () => {
     // Without the `extendTailwindMerge` config in cn.ts both classes survive
     // and CSS source order silently decides the winner.
-    expect(cn('shadow-elevated', 'shadow-none')).toBe('shadow-none');
+    expect(cn('shadow-overlay', 'shadow-none')).toBe('shadow-none');
     expect(cn('shadow-lg', 'shadow-overlay')).toBe('shadow-overlay');
+  });
+
+  it('resolves every custom token group registered in cn.ts', () => {
+    // Each of these would keep *both* classes if the corresponding group were
+    // missing from `extendTailwindMerge`, because twMerge validates these
+    // utilities against Tailwind's own scales and our token names are not in
+    // them. Source order would then decide the winner instead of the consumer.
+    expect(cn('rounded-control', 'rounded-full')).toBe('rounded-full');
+    expect(cn('rounded-full', 'rounded-control')).toBe('rounded-control');
+    expect(cn('rounded-surface', 'rounded-none')).toBe('rounded-none');
+    expect(cn('duration-fast', 'duration-500')).toBe('duration-500');
+    expect(cn('ease-editorial', 'ease-linear')).toBe('ease-linear');
+    expect(cn('text-title', 'text-body')).toBe('text-body');
   });
 
   it('ignores falsy values', () => {
@@ -28,16 +41,16 @@ describe('defineVariants', () => {
   const button = defineVariants({
     base: 'inline-flex rounded-md',
     variants: {
-      tone: { brand: 'bg-brand-600 text-white', ghost: 'bg-transparent' },
+      variant: { primary: 'bg-accent text-accent-fg', ghost: 'bg-transparent' },
       size: { sm: 'h-8 px-3', md: 'h-10 px-4' },
       fullWidth: { true: 'w-full', false: '' },
     },
-    defaultVariants: { tone: 'brand', size: 'md', fullWidth: false },
-    compoundVariants: [{ tone: 'ghost', size: 'sm', class: 'px-2' }],
+    defaultVariants: { variant: 'primary', size: 'md', fullWidth: false },
+    compoundVariants: [{ variant: 'ghost', size: 'sm', class: 'px-2' }],
   });
 
   it('applies default variants', () => {
-    expect(button()).toBe('inline-flex rounded-md bg-brand-600 text-white h-10 px-4');
+    expect(button()).toBe('inline-flex rounded-md bg-accent text-accent-fg h-10 px-4');
   });
 
   it('lets an explicit variant override the default', () => {
@@ -53,9 +66,9 @@ describe('defineVariants', () => {
   it('applies a compound variant only when every condition matches', () => {
     // `px-2` from the compound variant must beat `px-3` from `size: sm`,
     // which only works because compounds are appended last and run through twMerge.
-    expect(button({ tone: 'ghost', size: 'sm' })).toContain('px-2');
-    expect(button({ tone: 'ghost', size: 'sm' })).not.toContain('px-3');
-    expect(button({ tone: 'brand', size: 'sm' })).toContain('px-3');
+    expect(button({ variant: 'ghost', size: 'sm' })).toContain('px-2');
+    expect(button({ variant: 'ghost', size: 'sm' })).not.toContain('px-3');
+    expect(button({ variant: 'primary', size: 'sm' })).toContain('px-3');
   });
 
   it('appends and merges the `class` escape hatch last', () => {
@@ -64,7 +77,7 @@ describe('defineVariants', () => {
   });
 
   it('exposes its variant keys', () => {
-    expect(button.variantKeys).toEqual(['tone', 'size', 'fullWidth']);
+    expect(button.variantKeys).toEqual(['variant', 'size', 'fullWidth']);
   });
 });
 
@@ -76,12 +89,12 @@ describe('defineSlots', () => {
         sm: { root: 'h-5 w-9', thumb: 'size-4' },
         lg: { root: 'h-7 w-13', thumb: 'size-6' },
       },
-      tone: {
-        brand: { root: 'data-checked:bg-brand-600' },
+      variant: {
+        primary: { root: 'data-checked:bg-accent' },
       },
     },
-    defaultVariants: { size: 'sm', tone: 'brand' },
-    compoundVariants: [{ size: 'lg', tone: 'brand', class: { thumb: 'shadow-md' } }],
+    defaultVariants: { size: 'sm', variant: 'primary' },
+    compoundVariants: [{ size: 'lg', variant: 'primary', class: { thumb: 'shadow-md' } }],
   });
 
   it('drives every slot from one variant selection', () => {
@@ -90,28 +103,28 @@ describe('defineSlots', () => {
   });
 
   it('only emits classes for slots a variant actually declares', () => {
-    // `tone` says nothing about the thumb, so the thumb must be unaffected.
-    expect(toggle.thumb({ tone: 'brand' })).toBe('block bg-white size-4');
+    // `variant` says nothing about the thumb, so the thumb must be unaffected.
+    expect(toggle.thumb({ variant: 'primary' })).toBe('block bg-white size-4');
   });
 
   it('applies compound variants per slot', () => {
-    expect(toggle.thumb({ size: 'lg', tone: 'brand' })).toContain('shadow-md');
-    expect(toggle.thumb({ size: 'sm', tone: 'brand' })).not.toContain('shadow-md');
+    expect(toggle.thumb({ size: 'lg', variant: 'primary' })).toContain('shadow-md');
+    expect(toggle.thumb({ size: 'sm', variant: 'primary' })).not.toContain('shadow-md');
   });
 
   it('shares variant keys across slots', () => {
-    expect(toggle.variantKeys).toEqual(['size', 'tone']);
+    expect(toggle.variantKeys).toEqual(['size', 'variant']);
   });
 });
 
 describe('splitVariantProps', () => {
   it('separates variant props from element props', () => {
     const [variants, rest] = splitVariantProps(
-      { size: 'sm', id: 'x', onClick: undefined, tone: 'ghost' },
-      ['size', 'tone'],
+      { size: 'sm', id: 'x', onClick: undefined, variant: 'ghost' },
+      ['size', 'variant'],
     );
 
-    expect(variants).toEqual({ size: 'sm', tone: 'ghost' });
+    expect(variants).toEqual({ size: 'sm', variant: 'ghost' });
     expect(rest).toEqual({ id: 'x', onClick: undefined });
   });
 });

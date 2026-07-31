@@ -10,7 +10,7 @@ describe('Button', () => {
     const button = screen.getByRole('button', { name: 'Save' });
 
     expect(button.tagName).toBe('BUTTON');
-    expect(button).toHaveClass('bg-brand-600', 'h-10', 'px-4');
+    expect(button).toHaveClass('bg-accent', 'h-9', 'px-4');
   });
 
   it('lets a consumer class override a built-in one on conflict', () => {
@@ -20,18 +20,18 @@ describe('Button', () => {
     expect(button).toHaveClass('px-8', 'bg-emerald-500');
     // This is the assertion that justifies the whole `cn`/twMerge layer.
     expect(button).not.toHaveClass('px-4');
-    expect(button).not.toHaveClass('bg-brand-600');
+    expect(button).not.toHaveClass('bg-accent');
   });
 
   it('does not leak variant props onto the DOM', () => {
     render(
-      <Button tone="ghost" size="sm" fullWidth>
+      <Button variant="ghost" size="sm" fullWidth>
         Save
       </Button>,
     );
     const button = screen.getByRole('button', { name: 'Save' });
 
-    expect(button).not.toHaveAttribute('tone');
+    expect(button).not.toHaveAttribute('variant');
     expect(button).not.toHaveAttribute('size');
     expect(button).not.toHaveAttribute('fullWidth');
     expect(button).not.toHaveAttribute('fullwidth');
@@ -40,7 +40,7 @@ describe('Button', () => {
 
   it('applies compound variants', () => {
     render(
-      <Button tone="ghost" size="sm">
+      <Button variant="ghost" size="sm">
         Save
       </Button>,
     );
@@ -67,7 +67,7 @@ describe('Button', () => {
 
     expect(link.tagName).toBe('A');
     expect(link).toHaveAttribute('href', '/pricing');
-    expect(link).toHaveClass('bg-brand-600');
+    expect(link).toHaveClass('bg-accent');
   });
 
   it('forwards a ref to the underlying element', () => {

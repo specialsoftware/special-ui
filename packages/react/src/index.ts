@@ -1,6 +1,7 @@
 export * from './provider';
 export * from './button';
 export * from './switch';
+export * from './text';
 export * from './dialog';
 export * from './styles';
 
