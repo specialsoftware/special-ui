@@ -87,6 +87,12 @@ describe('Switch', () => {
     expect(root).not.toHaveClass('h-6');
   });
 
+  it('declares a paintable focus ring', () => {
+    const { root } = renderSwitch();
+
+    expect(root).toHaveClass('focus-visible:outline-solid', 'focus-visible:outline-2');
+  });
+
   it('does not leak variant props onto the DOM', () => {
     const { root, thumb } = renderSwitch({ size: 'lg', variant: 'danger' });
 

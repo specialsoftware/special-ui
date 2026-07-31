@@ -9,7 +9,9 @@ export const switchStyles = defineSlots({
     root: [
       'relative inline-flex shrink-0 items-center rounded-full p-px',
       'transition-colors duration-normal ease-editorial',
-      'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+      // See Button.tsx: `outline-solid` restores the style that `outline-none`
+      // zeroed out, without which the ring never paints.
+      'outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       'data-disabled:pointer-events-none data-disabled:opacity-40',
       // Base UI puts `data-unchecked` on the element when off, rather than
       // leaving the attribute absent. That means both states are addressable

@@ -19,7 +19,11 @@ export const buttonStyles = defineVariants({
     'transition-colors duration-fast ease-editorial',
     // The focus ring is the foreground color, never a hue. In a monochrome
     // system a colored ring is the one thing that would break the palette.
-    'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+    // `outline-solid` is required, not decorative: `outline-none` sets
+    // `--tw-outline-style: none`, and Tailwind v4's `outline-2` resolves its
+    // style from that variable. Without restoring it the ring gets a width and
+    // a colour but `outline-style: none`, and never paints.
+    'outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     // Base UI sets `data-disabled` on the element, which is what lets us style
     // the disabled state without relying on the `:disabled` pseudo-class —
     // important because `render` may swap in a non-<button>.

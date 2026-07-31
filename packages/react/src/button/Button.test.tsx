@@ -70,6 +70,21 @@ describe('Button', () => {
     expect(link).toHaveClass('bg-accent');
   });
 
+  it('declares a paintable focus ring', () => {
+    render(<Button>Save</Button>);
+    const button = screen.getByRole('button', { name: 'Save' });
+
+    // `outline-none` sets `--tw-outline-style: none` and Tailwind v4's
+    // `outline-2` resolves its style from that variable, so without
+    // `outline-solid` the ring gets a width and a colour but never paints.
+    // jsdom cannot evaluate that cascade, so assert the class contract instead.
+    expect(button).toHaveClass(
+      'focus-visible:outline-solid',
+      'focus-visible:outline-2',
+      'focus-visible:outline-focus',
+    );
+  });
+
   it('forwards a ref to the underlying element', () => {
     const ref = React.createRef<HTMLButtonElement>();
     render(<Button ref={ref}>Save</Button>);
