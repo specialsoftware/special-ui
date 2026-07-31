@@ -1,0 +1,100 @@
+/*
+ * @special-ui/react — design tokens.
+ *
+ * Consumers import this *after* Tailwind:
+ *
+ *   @import "tailwindcss";
+ *   @import "@special-ui/react/theme.css";
+ *
+ * Everything here is a CSS custom property, which is the whole point: a
+ * consumer retheming the library never has to fork a component. They redeclare
+ * a token and every component that references it follows.
+ */
+
+/*
+ * Tailwind v4 only generates the utilities it can *see*. The library ships
+ * prebuilt JS containing class strings, so those files have to be part of the
+ * content scan or half the built-in styles will be missing from the consumer's
+ * CSS. Shipping this line with the package means consumers get it for free.
+ */
+@source "../dist";
+
+/* Class-based dark mode. Remove this to fall back to `prefers-color-scheme`. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * `inline` is load-bearing, not cosmetic.
+ *
+ * The semantic colors below are declared as `var(--su-*)` so that dark mode can
+ * swap the raw value at runtime. Without `inline`, Tailwind emits
+ * `--color-surface: var(--su-surface)` on `:root`; CSS substitutes that `var()`
+ * at `:root`, and the *resolved* light value is what inherits down the tree. A
+ * `.dark` block redefining `--su-surface` on a descendant would then have no
+ * effect at all.
+ *
+ * `@theme inline` instead inlines the reference into each utility, so
+ * `bg-surface` compiles to `background-color: var(--su-surface)` and resolves
+ * against whichever element it lands on. That is what makes the `.dark`
+ * override work.
+ */
+@theme inline {
+  /* --- Brand scale -------------------------------------------------------- */
+  --color-brand-50: oklch(97.1% 0.014 254deg);
+  --color-brand-100: oklch(93.6% 0.032 255deg);
+  --color-brand-200: oklch(88.2% 0.059 254deg);
+  --color-brand-300: oklch(80.9% 0.105 252deg);
+  --color-brand-400: oklch(70.7% 0.165 254deg);
+  --color-brand-500: oklch(62.3% 0.214 259deg);
+  --color-brand-600: oklch(54.6% 0.245 262deg);
+  --color-brand-700: oklch(48.8% 0.243 264deg);
+  --color-brand-800: oklch(42.4% 0.199 265deg);
+  --color-brand-900: oklch(37.9% 0.146 265deg);
+  --color-brand-950: oklch(28.2% 0.091 267deg);
+
+  /* --- Semantic colors ---------------------------------------------------- */
+  /* These indirect through runtime variables so they can flip in dark mode. */
+  --color-surface: var(--su-surface);
+  --color-surface-raised: var(--su-surface-raised);
+  --color-surface-sunken: var(--su-surface-sunken);
+  --color-content: var(--su-content);
+  --color-content-muted: var(--su-content-muted);
+  --color-line: var(--su-line);
+  --color-danger: var(--su-danger);
+
+  /* --- Shape -------------------------------------------------------------- */
+  --radius-control: 0.5rem;
+  --radius-surface: 0.875rem;
+
+  /* --- Elevation ---------------------------------------------------------- */
+  /* Registered as a custom class group in `cn.ts` so `shadow-elevated` and
+   * `shadow-lg` are understood to conflict. */
+  --shadow-elevated: 0 1px 2px -1px oklch(0% 0 0deg / 0.1), 0 4px 12px -2px oklch(0% 0 0deg / 0.1);
+  --shadow-overlay: 0 8px 32px -4px oklch(0% 0 0deg / 0.18), 0 2px 8px -2px oklch(0% 0 0deg / 0.12);
+
+  /* --- Motion ------------------------------------------------------------- */
+  --ease-emphasized: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+}
+
+@layer base {
+  :root {
+    --su-surface: oklch(100% 0 0deg);
+    --su-surface-raised: oklch(100% 0 0deg);
+    --su-surface-sunken: oklch(97% 0 0deg);
+    --su-content: oklch(14.5% 0 0deg);
+    --su-content-muted: oklch(55.6% 0 0deg);
+    --su-line: oklch(92.2% 0 0deg);
+    --su-danger: oklch(57.7% 0.245 27.3deg);
+  }
+
+  .dark {
+    --su-surface: oklch(14.5% 0 0deg);
+    --su-surface-raised: oklch(20.5% 0 0deg);
+    --su-surface-sunken: oklch(10% 0 0deg);
+    --su-content: oklch(98.5% 0 0deg);
+    --su-content-muted: oklch(70.8% 0 0deg);
+    --su-line: oklch(27.1% 0 0deg);
+    --su-danger: oklch(70.4% 0.191 22.2deg);
+  }
+}

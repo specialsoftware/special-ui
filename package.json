@@ -1,0 +1,33 @@
+{
+  "name": "@special-ui/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter @special-ui/react build",
+    "dev": "pnpm --filter playground dev",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typescript": "tsc -b tsconfig.json"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.18.13",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "jsdom": "27.4.0",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "typescript": "5.9.3",
+    "vite": "8.0.11",
+    "vitest": "4.1.8"
+  },
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=20"
+  }
+}
