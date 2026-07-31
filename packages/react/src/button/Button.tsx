@@ -15,7 +15,7 @@ import type { VariantPropsOf } from '../internals/types';
 export const buttonStyles = defineVariants({
   base: [
     'inline-flex select-none items-center justify-center gap-2 whitespace-nowrap',
-    'rounded-control font-medium',
+    'rounded-button font-medium',
     'transition-colors duration-fast ease-editorial',
     // The focus ring is the foreground color, never a hue. In a monochrome
     // system a colored ring is the one thing that would break the palette.
@@ -49,10 +49,13 @@ export const buttonStyles = defineVariants({
       /** The single chromatic exception in the system. */
       danger: 'bg-danger text-danger-fg hover:bg-danger-hover',
     },
+    // Pills need more horizontal room than square buttons: the rounded ends
+    // eat into the optical space beside the label, so the same numeric padding
+    // reads tighter than it measures.
     size: {
-      sm: 'h-7 px-2.5 text-caption',
-      md: 'h-9 px-4 text-label',
-      lg: 'h-11 px-6 text-body',
+      sm: 'h-7 px-3.5 text-caption',
+      md: 'h-9 px-5 text-label',
+      lg: 'h-11 px-7 text-body',
     },
     fullWidth: {
       true: 'w-full',
@@ -71,10 +74,10 @@ export const buttonStyles = defineVariants({
     { variant: 'link', size: 'sm', class: 'h-auto rounded-none px-0' },
     { variant: 'link', size: 'md', class: 'h-auto rounded-none px-0' },
     { variant: 'link', size: 'lg', class: 'h-auto rounded-none px-0' },
-    // Ghost buttons have no edge, so they need tighter horizontal padding to
-    // stay optically aligned with adjacent text.
-    { variant: 'ghost', size: 'sm', class: 'px-2' },
-    { variant: 'ghost', size: 'md', class: 'px-3' },
+    // Ghost buttons have no edge until hovered, so they need tighter
+    // horizontal padding to stay optically aligned with adjacent text.
+    { variant: 'ghost', size: 'sm', class: 'px-3' },
+    { variant: 'ghost', size: 'md', class: 'px-4' },
   ],
 });
 

@@ -24,8 +24,9 @@ describe('cn', () => {
     // missing from `extendTailwindMerge`, because twMerge validates these
     // utilities against Tailwind's own scales and our token names are not in
     // them. Source order would then decide the winner instead of the consumer.
-    expect(cn('rounded-control', 'rounded-full')).toBe('rounded-full');
-    expect(cn('rounded-full', 'rounded-control')).toBe('rounded-control');
+    expect(cn('rounded-button', 'rounded-none')).toBe('rounded-none');
+    expect(cn('rounded-none', 'rounded-button')).toBe('rounded-button');
+    expect(cn('rounded-field', 'rounded-button')).toBe('rounded-button');
     expect(cn('rounded-surface', 'rounded-none')).toBe('rounded-none');
     expect(cn('duration-fast', 'duration-500')).toBe('duration-500');
     expect(cn('ease-editorial', 'ease-linear')).toBe('ease-linear');

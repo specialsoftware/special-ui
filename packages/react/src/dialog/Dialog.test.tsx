@@ -80,7 +80,7 @@ describe('Dialog', () => {
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
     const close = screen.getByRole('button', { name: 'Cancel' });
-    expect(close).toHaveClass('rounded-control', 'border-line');
+    expect(close).toHaveClass('rounded-button', 'border-line');
     expect(close).not.toHaveClass('bg-accent');
   });
 

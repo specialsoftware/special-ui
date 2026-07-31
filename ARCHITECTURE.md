@@ -306,7 +306,7 @@ is the sharpest recurring edge in a Tailwind-first library, and it fails
 extendTailwindMerge({
   extend: {
     classGroups: {
-      'rounded': [{ rounded: ['control', 'surface'] }],
+      'rounded': [{ rounded: ['button', 'field', 'surface'] }],
       'font-size': [{ text: ['eyebrow', 'caption', 'label', 'body', 'heading', 'title', 'display'] }],
       'shadow': [{ shadow: ['overlay'] }],
       'duration': [{ duration: ['fast', 'normal'] }],

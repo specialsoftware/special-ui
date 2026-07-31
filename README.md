@@ -88,7 +88,7 @@ Consumer classes always win on conflicting utilities — everything runs through
 ```
 
 Any custom token that shares a Tailwind utility prefix must be registered as a
-class group in `styles/cn.ts` — `rounded-control`, `text-body`, `shadow-overlay`
+class group in `styles/cn.ts` — `rounded-button`, `text-body`, `shadow-overlay`
 and the named durations all are. Without that, twMerge cannot tell the token
 from Tailwind's own scale and keeps both classes, leaving CSS source order to
 decide. Add a case to the regression test in `variants.test.ts` whenever you add
@@ -113,11 +113,13 @@ Redefine tokens; no need to fork a component. Semantic colours indirect through
 .dark { --su-bg: oklch(8.5% 0 0deg); --su-accent: oklch(97% 0 0deg); }
 ```
 
-Shape and motion are tokens too. To make every control pill-shaped, change one
-line rather than touching a component or a call site:
+Shape is a token too, split by shape language rather than component taxonomy —
+buttons are pills, fields are near-square, and no single value is right for
+both. Squaring off every button is one line, with no component or call site
+touched:
 
 ```css
-@theme { --radius-control: 9999px; }
+@theme { --radius-button: 0.25rem; }
 ```
 
 If you scope the theme to an element rather than `<html>`, wrap the app in
@@ -143,7 +145,7 @@ test/             shared test setup
 import { defineSlots, createStyledPart, createVariantContext } from '@special-ui/react';
 
 const styles = defineSlots({
-  slots: { root: 'rounded-control border', label: 'text-sm' },
+  slots: { root: 'rounded-surface border', label: 'text-sm' },
   variants: { size: { sm: { root: 'p-2', label: 'text-xs' }, md: { root: 'p-4' } } },
   defaultVariants: { size: 'md' },
 });

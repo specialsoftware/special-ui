@@ -10,7 +10,7 @@ describe('Button', () => {
     const button = screen.getByRole('button', { name: 'Save' });
 
     expect(button.tagName).toBe('BUTTON');
-    expect(button).toHaveClass('bg-accent', 'h-9', 'px-4');
+    expect(button).toHaveClass('bg-accent', 'h-9', 'px-5', 'rounded-button');
   });
 
   it('lets a consumer class override a built-in one on conflict', () => {
@@ -19,7 +19,7 @@ describe('Button', () => {
 
     expect(button).toHaveClass('px-8', 'bg-emerald-500');
     // This is the assertion that justifies the whole `cn`/twMerge layer.
-    expect(button).not.toHaveClass('px-4');
+    expect(button).not.toHaveClass('px-5');
     expect(button).not.toHaveClass('bg-accent');
   });
 
@@ -38,6 +38,16 @@ describe('Button', () => {
     expect(button).toHaveClass('w-full');
   });
 
+  it('lets a consumer square off the pill', () => {
+    render(<Button className="rounded-none">Save</Button>);
+    const button = screen.getByRole('button', { name: 'Save' });
+
+    // Only works because `rounded-button` is a registered twMerge class group;
+    // otherwise both radii survive and source order decides.
+    expect(button).toHaveClass('rounded-none');
+    expect(button).not.toHaveClass('rounded-button');
+  });
+
   it('applies compound variants', () => {
     render(
       <Button variant="ghost" size="sm">
@@ -45,8 +55,8 @@ describe('Button', () => {
       </Button>,
     );
 
-    expect(screen.getByRole('button')).toHaveClass('px-2');
-    expect(screen.getByRole('button')).not.toHaveClass('px-3');
+    expect(screen.getByRole('button')).toHaveClass('px-3');
+    expect(screen.getByRole('button')).not.toHaveClass('px-3.5');
   });
 
   it('supports a className function of Base UI state', () => {

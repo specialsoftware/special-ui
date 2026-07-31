@@ -20,11 +20,11 @@ const twMerge = extendTailwindMerge({
       // and so would `text-title` and `text-fg-muted`, since twMerge cannot
       // otherwise tell a size token from a color token.
       'font-size': [{ text: ['eyebrow', 'caption', 'label', 'body', 'heading', 'title', 'display'] }],
-      // Without this, `cn('rounded-control', 'rounded-full')` keeps *both*
+      // Without this, `cn('rounded-button', 'rounded-none')` keeps *both*
       // classes: twMerge validates `rounded-*` against Tailwind's own scale,
-      // and `control`/`surface` are not in it. A consumer overriding the radius
-      // would then be at the mercy of CSS source order.
-      'rounded': [{ rounded: ['control', 'surface'] }],
+      // and `button`/`field`/`surface` are not in it. A consumer overriding the
+      // radius would then be at the mercy of CSS source order.
+      'rounded': [{ rounded: ['button', 'field', 'surface'] }],
       // Same reasoning for the named motion tokens, which are not numbers.
       'duration': [{ duration: ['fast', 'normal'] }],
       'ease': [{ ease: ['editorial'] }],

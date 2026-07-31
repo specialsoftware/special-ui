@@ -141,7 +141,7 @@ export function App() {
                     <Button variant="secondary" render={<a href="https://base-ui.com" />}>
                       Renders an anchor
                     </Button>
-                    <Button className="rounded-full px-6">Overridden to a pill</Button>
+                    <Button className="rounded-none">Squared off</Button>
                   </Cluster>
                 </Spec>
               </Row>

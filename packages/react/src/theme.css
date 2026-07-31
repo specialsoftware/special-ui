@@ -86,13 +86,21 @@
   --text-display--font-weight: 500;
 
   /* --- Shape ---------------------------------------------------------------
-   * Near-square. Swiss layout is rational and grid-derived, and heavy rounding
-   * reads as consumer-app rather than editorial.
+   * Three radii, split by shape language rather than by component taxonomy.
    *
-   * For the pill-shaped buttons on money.x.com, set `--radius-control: 9999px`
-   * — nothing else needs to change.
+   * Buttons are pills, after money.x.com. Fields are near-square, because
+   * Swiss layout is grid-derived and because a pill-shaped text input reads as
+   * a search box no matter what it contains. Those two facts cannot live in
+   * one `--radius-control` token: a single value is either wrong for buttons
+   * or wrong for inputs.
+   *
+   * Splitting them records the intent. A future Chip or Badge takes
+   * `--radius-button` and is correct by construction; a future Select takes
+   * `--radius-field` and is likewise correct, with nobody having to remember
+   * which bucket it belonged in.
    */
-  --radius-control: 0.25rem;
+  --radius-button: 9999px;
+  --radius-field: 0.25rem;
   --radius-surface: 0.375rem;
 
   /* --- Elevation -----------------------------------------------------------
