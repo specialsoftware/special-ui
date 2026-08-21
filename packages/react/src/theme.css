@@ -1,0 +1,240 @@
+/*
+ * @special-ui/react — design tokens.
+ *
+ * A Swiss/editorial system: monochrome, grid-disciplined, typographic. Color
+ * carries no meaning here except for destructive actions — hierarchy comes from
+ * type size, weight and value contrast instead. Every surface is separated by a
+ * hairline rule rather than a shadow.
+ *
+ * Consumers import this *after* Tailwind:
+ *
+ *   @import "tailwindcss";
+ *   @import "@special-ui/react/theme.css";
+ *
+ * The library does not load a webfont. Install Inter yourself — the
+ * `@fontsource-variable/inter` package is the least surprising way — or
+ * redefine `--font-sans` to whatever you use.
+ */
+
+/*
+ * Tailwind v4 only generates the utilities it can *see*. The library ships
+ * prebuilt JS containing class strings, so those files have to be part of the
+ * content scan or half the built-in styles will be missing from the consumer's
+ * CSS. Shipping this line with the package means consumers get it for free.
+ */
+@source "../dist";
+
+/* Class-based dark mode. Remove this to fall back to `prefers-color-scheme`. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* -------------------------------------------------------------------------- */
+/*  Static tokens                                                              */
+/* -------------------------------------------------------------------------- */
+/*  A plain `@theme` block: these values never change at runtime, so Tailwind    */
+/*  can emit them as ordinary custom properties.                               */
+
+@theme {
+  /* --- Type ---------------------------------------------------------------
+   * Inter is the only family. `font-optical-sizing: auto` (set in the base
+   * layer below) lets the variable font adjust its own contrast across sizes,
+   * which is what keeps display text from looking thin and body text from
+   * looking cramped.
+   */
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', monospace;
+
+  /* --- Type scale ----------------------------------------------------------
+   * Six roles, not a numeric ramp. Naming them after their job is what stops a
+   * design system drifting into fourteen slightly different heading sizes.
+   *
+   * Tracking tightens as size grows — the single most characteristic move in
+   * editorial typography, and the reason large Inter set at default tracking
+   * always looks loose. Weight tops out at 500: Swiss display type is set in
+   * medium, not black.
+   */
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.08em;
+  --text-eyebrow--font-weight: 500;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.45;
+  --text-caption--letter-spacing: 0em;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.45;
+  --text-label--letter-spacing: -0.006em;
+
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.65;
+  --text-body--letter-spacing: -0.008em;
+
+  --text-heading: 1.0625rem;
+  --text-heading--line-height: 1.4;
+  --text-heading--letter-spacing: -0.018em;
+  --text-heading--font-weight: 500;
+
+  --text-title: 1.75rem;
+  --text-title--line-height: 1.18;
+  --text-title--letter-spacing: -0.028em;
+  --text-title--font-weight: 500;
+
+  --text-display: 2.75rem;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.036em;
+  --text-display--font-weight: 500;
+
+  /* --- Shape ---------------------------------------------------------------
+   * Three radii, split by shape language rather than by component taxonomy.
+   *
+   * Buttons are pills, after money.x.com. Fields are near-square, because
+   * Swiss layout is grid-derived and because a pill-shaped text input reads as
+   * a search box no matter what it contains. Those two facts cannot live in
+   * one `--radius-control` token: a single value is either wrong for buttons
+   * or wrong for inputs.
+   *
+   * Splitting them records the intent. A future Chip or Badge takes
+   * `--radius-button` and is correct by construction; a future Select takes
+   * `--radius-field` and is likewise correct, with nobody having to remember
+   * which bucket it belonged in.
+   */
+  --radius-button: 9999px;
+  --radius-field: 0.25rem;
+  --radius-surface: 0.375rem;
+
+  /* --- Elevation -----------------------------------------------------------
+   * Exactly one shadow, used only by overlays that float above the page.
+   * Everything else separates with a hairline. Registered as a custom class
+   * group in `cn.ts` so it conflicts correctly with Tailwind's own `shadow-*`.
+   */
+  --shadow-overlay: 0 16px 48px -12px oklch(0% 0 0deg / 0.28);
+
+  /* --- Motion --------------------------------------------------------------
+   * Short and unfussy. Editorial interfaces should not appear to animate.
+   */
+  --ease-editorial: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-normal: 180ms;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Semantic colors                                                            */
+/* -------------------------------------------------------------------------- */
+/*
+ * `inline` is load-bearing, not cosmetic.
+ *
+ * These indirect through `var(--su-*)` so dark mode can swap the raw value at
+ * runtime. Without `inline`, Tailwind emits `--color-bg: var(--su-bg)` on
+ * `:root`; CSS substitutes that `var()` at `:root`, and the *resolved* light
+ * value is what inherits down the tree. A `.dark` block redefining `--su-bg` on
+ * a descendant would then have no effect at all.
+ *
+ * `@theme inline` instead inlines the reference into each utility, so `bg-bg`
+ * compiles to `background-color: var(--su-bg)` and resolves against whichever
+ * element it lands on. That is what makes the `.dark` override work.
+ */
+@theme inline {
+  /* Canvas and surfaces */
+  --color-bg: var(--su-bg);
+  --color-bg-subtle: var(--su-bg-subtle);
+  --color-bg-inset: var(--su-bg-inset);
+
+  /* Text */
+  --color-fg: var(--su-fg);
+  --color-fg-muted: var(--su-fg-muted);
+  --color-fg-subtle: var(--su-fg-subtle);
+
+  /* Hairlines */
+  --color-line: var(--su-line);
+  --color-line-strong: var(--su-line-strong);
+
+  /*
+   * The inverted pair. In light mode this is near-black on white; in dark mode
+   * it flips to white on near-black. Both reference sites lead with exactly
+   * this move, and expressing it as a token pair means a solid button needs no
+   * `dark:` variant anywhere in the component.
+   */
+  --color-accent: var(--su-accent);
+  --color-accent-fg: var(--su-accent-fg);
+  --color-accent-hover: var(--su-accent-hover);
+
+  /* The one chromatic exception. Swiss allows black, white, and red. */
+  --color-danger: var(--su-danger);
+  --color-danger-fg: var(--su-danger-fg);
+  --color-danger-hover: var(--su-danger-hover);
+
+  /* Focus ring — always the foreground color, never a brand hue. */
+  --color-focus: var(--su-fg);
+
+  /*
+   * Overlay scrim. This is deliberately *not* derived from the foreground:
+   * `bg-fg/25` would become a white wash in dark mode and lighten the page
+   * instead of dimming it. A scrim always darkens, and needs to darken harder
+   * in dark mode to separate a dark panel from a dark canvas.
+   */
+  --color-scrim: var(--su-scrim);
+}
+
+@layer base {
+  :root {
+    --su-bg: oklch(100% 0 0deg);
+    --su-bg-subtle: oklch(97.5% 0 0deg);
+    --su-bg-inset: oklch(95% 0 0deg);
+
+    --su-fg: oklch(12% 0 0deg);
+    --su-fg-muted: oklch(48% 0 0deg);
+    --su-fg-subtle: oklch(64% 0 0deg);
+
+    --su-line: oklch(91% 0 0deg);
+    --su-line-strong: oklch(82% 0 0deg);
+
+    --su-accent: oklch(12% 0 0deg);
+    --su-accent-fg: oklch(100% 0 0deg);
+    --su-accent-hover: oklch(28% 0 0deg);
+
+    --su-danger: oklch(52% 0.21 27deg);
+    --su-danger-fg: oklch(100% 0 0deg);
+    --su-danger-hover: oklch(46% 0.2 27deg);
+
+    --su-scrim: oklch(0% 0 0deg / 0.32);
+  }
+
+  .dark {
+    /* Near-black rather than pure black: it keeps hairlines visible and stops
+     * OLED screens from smearing on scroll. */
+    --su-bg: oklch(8.5% 0 0deg);
+    --su-bg-subtle: oklch(12.5% 0 0deg);
+    --su-bg-inset: oklch(16% 0 0deg);
+
+    --su-fg: oklch(97% 0 0deg);
+    --su-fg-muted: oklch(64% 0 0deg);
+    --su-fg-subtle: oklch(50% 0 0deg);
+
+    --su-line: oklch(21% 0 0deg);
+    --su-line-strong: oklch(30% 0 0deg);
+
+    --su-accent: oklch(97% 0 0deg);
+    --su-accent-fg: oklch(8.5% 0 0deg);
+    --su-accent-hover: oklch(85% 0 0deg);
+
+    --su-danger: oklch(62% 0.2 27deg);
+    --su-danger-fg: oklch(8.5% 0 0deg);
+    --su-danger-hover: oklch(68% 0.19 27deg);
+
+    --su-scrim: oklch(0% 0 0deg / 0.62);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    /* Let the variable font pick its own optical size per text size. */
+    font-optical-sizing: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Numerals should never reflow a table or a stat while they tick. */
+  table,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+  }
+}
