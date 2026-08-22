@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
   [
-    "group/button relative inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap",
+    "group/button relative inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap rounded-full",
     "border border-transparent bg-clip-padding type-label outline-none",
     "transition-[color,background-color,border-color,box-shadow] duration-fast ease-special",
     "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/15",
@@ -27,15 +27,15 @@ const buttonVariants = cva(
         ghost: "text-foreground hover:bg-secondary active:bg-muted",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive-hover focus-visible:border-destructive focus-visible:ring-destructive/20",
-        link: "h-auto rounded-none px-0 text-foreground underline-offset-4 hover:underline",
+        link: "h-auto px-0 text-foreground underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-8 gap-1.5 rounded-sm px-2.5 type-caption",
-        default: "h-9 gap-2 rounded-md px-3.5",
-        lg: "h-10 gap-2 rounded-md px-4 type-body",
-        icon: "size-9 rounded-md",
-        "icon-sm": "size-8 rounded-sm [&_svg:not([class*='size-'])]:size-3.5",
-        "icon-lg": "size-10 rounded-md [&_svg:not([class*='size-'])]:size-[1.125rem]",
+        sm: "h-8 gap-1.5 px-2.5 type-caption",
+        default: "h-9 gap-2 px-3.5",
+        lg: "h-10 gap-2 px-4 type-body",
+        icon: "size-9",
+        "icon-sm": "size-8 [&_svg:not([class*='size-'])]:size-3.5",
+        "icon-lg": "size-10 [&_svg:not([class*='size-'])]:size-[1.125rem]",
       },
     },
     defaultVariants: {

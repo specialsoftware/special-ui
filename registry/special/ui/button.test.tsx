@@ -35,6 +35,6 @@ describe("Button", () => {
 
     const button = screen.getByRole("button", { name: "Custom" })
     expect(button).toHaveClass("h-12", "rounded-none")
-    expect(button).not.toHaveClass("h-9", "rounded-md")
+    expect(button).not.toHaveClass("h-9", "rounded-full")
   })
 })
