@@ -1,14 +1,5 @@
 import { useState } from "react"
-import {
-  ArrowRight,
-  Check,
-  CreditCard,
-  Moon,
-  MoreHorizontal,
-  Settings2,
-  Sparkles,
-  Sun,
-} from "lucide-react"
+import { ArrowRight, CreditCard, Moon, MoreHorizontal, Settings2, Sun } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -29,110 +20,49 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-const themes = [
-  {
-    id: "warm",
-    name: "Warm Precision",
-    description: "Ivory, charcoal, and cobalt. Editorial restraint for premium product UI.",
-    className: "theme-warm",
-    swatches: ["bg-background", "bg-card", "bg-secondary", "bg-primary", "bg-destructive"],
-  },
-  {
-    id: "cool",
-    name: "Cool Studio",
-    description: "Porcelain, ink, and iris. Softer, friendlier, and more spacious.",
-    className: "theme-cool",
-    swatches: ["bg-background", "bg-card", "bg-secondary", "bg-primary", "bg-destructive"],
-  },
-  {
-    id: "signal",
-    name: "Signal Modernist",
-    description: "Newsprint, black, and vermilion. Compact and graphically direct.",
-    className: "theme-signal",
-    swatches: ["bg-background", "bg-card", "bg-secondary", "bg-primary", "bg-destructive"],
-  },
+const neutralScale = [
+  { label: "Canvas", light: "#FFFFFF", dark: "#0A0A0A", className: "bg-background" },
+  { label: "Surface", light: "#F5F5F5", dark: "#171717", className: "bg-secondary" },
+  { label: "Rule", light: "#E5E5E5", dark: "#292929", className: "bg-border" },
+  { label: "Muted", light: "#616161", dark: "#A3A3A3", className: "bg-muted-foreground" },
+  { label: "Ink", light: "#111111", dark: "#F5F5F5", className: "bg-foreground" },
 ] as const
 
-type ThemeId = (typeof themes)[number]["id"]
-
 function SectionHeading({
-  eyebrow,
+  index,
   title,
   description,
 }: {
-  eyebrow: string
+  index: string
   title: string
   description: string
 }) {
   return (
-    <div className="grid gap-3 md:grid-cols-[9rem_1fr] md:gap-8">
-      <p className="pt-1 text-eyebrow uppercase text-subtle-foreground">{eyebrow}</p>
-      <div className="max-w-2xl">
-        <h2 className="font-display text-heading text-foreground">{title}</h2>
-        <p className="mt-2 text-body text-muted-foreground">{description}</p>
+    <div className="grid gap-3 md:grid-cols-[7rem_1fr] md:gap-8">
+      <p className="pt-0.5 type-eyebrow uppercase text-subtle-foreground">{index}</p>
+      <div className="max-w-xl">
+        <h2 className="font-display type-heading text-foreground">{title}</h2>
+        <p className="mt-2 type-body text-muted-foreground">{description}</p>
       </div>
     </div>
   )
 }
 
-function ThemePicker({ selected, onSelect }: { selected: ThemeId; onSelect: (id: ThemeId) => void }) {
-  return (
-    <div className="grid gap-3 lg:grid-cols-3">
-      {themes.map((theme) => {
-        const active = selected === theme.id
-        return (
-          <button
-            key={theme.id}
-            type="button"
-            onClick={() => onSelect(theme.id)}
-            aria-pressed={active}
-            className="group rounded-lg border border-border bg-card p-4 text-left shadow-card outline-none transition-[border-color,box-shadow,transform] duration-normal ease-special hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card-hover focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/20 active:translate-y-0"
-          >
-            <span className="flex items-start justify-between gap-4">
-              <span>
-                <span className="block text-label text-foreground">{theme.name}</span>
-                <span className="mt-1 block text-caption text-muted-foreground">{theme.description}</span>
-              </span>
-              <span
-                className="flex size-5 shrink-0 items-center justify-center rounded-full border border-border text-primary"
-                aria-hidden="true"
-              >
-                {active && <Check className="size-3" strokeWidth={2.5} />}
-              </span>
-            </span>
-            <span className="mt-4 flex gap-1.5" aria-hidden="true">
-              {theme.swatches.map((swatch) => (
-                <span key={swatch} className={`h-5 flex-1 rounded-sm border border-border ${swatch}`} />
-              ))}
-            </span>
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
 export function App() {
-  const [themeId, setThemeId] = useState<ThemeId>("warm")
   const [dark, setDark] = useState(false)
-  const theme = themes.find((item) => item.id === themeId) ?? themes[0]
 
   return (
-    <div className={`${theme.className} ${dark ? "dark" : ""} special-ui-theme`}>
+    <div className={`${dark ? "dark" : ""} special-ui-theme`}>
       <div className="min-h-screen bg-background text-foreground">
-        <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur-xl">
-          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
-            <div className="flex items-center gap-3">
-              <span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.16)]">
-                <Sparkles className="size-4" />
-              </span>
-              <div>
-                <p className="text-label">Special UI</p>
-                <p className="text-caption text-muted-foreground">Foundation calibration</p>
-              </div>
+        <header className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur-md">
+          <div className="mx-auto grid h-14 max-w-7xl grid-cols-[1fr_auto] items-center px-5 md:grid-cols-[7rem_1fr_auto] md:px-8">
+            <span className="hidden type-eyebrow text-subtle-foreground md:block">S / UI</span>
+            <div className="flex items-center gap-2.5">
+              <span className="size-2 bg-foreground" aria-hidden="true" />
+              <p className="type-label">Special UI</p>
             </div>
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon-sm"
               onClick={() => setDark((value) => !value)}
               aria-label={dark ? "Use light theme" : "Use dark theme"}
@@ -142,84 +72,103 @@ export function App() {
           </div>
         </header>
 
-        <main className="mx-auto max-w-6xl px-5 pb-24 md:px-8">
-          <section className="grid gap-10 py-16 md:grid-cols-[1fr_18rem] md:items-end md:py-24">
-            <div className="max-w-3xl">
-              <p className="text-eyebrow uppercase text-primary">Special UI · v2</p>
-              <h1 className="mt-5 max-w-[18ch] font-display text-display text-foreground">
-                A quieter foundation for ambitious products.
+        <main className="mx-auto max-w-7xl px-5 pb-24 md:px-8">
+          <section className="grid gap-10 py-14 md:grid-cols-[7rem_1fr_15rem] md:gap-8 md:py-20">
+            <p className="type-eyebrow uppercase text-subtle-foreground">Edition 01</p>
+            <div className="max-w-2xl">
+              <h1 className="max-w-[20ch] font-display type-display text-foreground">
+                A precise interface system for product work.
               </h1>
-              <p className="mt-6 max-w-[62ch] text-body text-muted-foreground">
-                One semantic system, three visual directions. The components below share the same
-                structure and behavior so we can judge the design language rather than isolated
-                mockups.
+              <p className="mt-5 max-w-[58ch] type-body text-muted-foreground">
+                Monochrome foundations, compact typography, and quiet components. Structure carries
+                the hierarchy; color is reserved for meaning.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-7 flex flex-wrap gap-2">
                 <Button>
-                  Start a project <ArrowRight data-icon="inline-end" />
+                  Explore components <ArrowRight data-icon="inline-end" />
                 </Button>
-                <Button variant="secondary">Read the principles</Button>
+                <Button variant="outline">View principles</Button>
               </div>
             </div>
-
-            <Card variant="subtle" size="sm">
-              <CardHeader>
-                <CardDescription>Active direction</CardDescription>
-                <CardTitle>{theme.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-caption text-muted-foreground">{theme.description}</p>
-              </CardContent>
-            </Card>
+            <dl className="grid content-start gap-3 border-t border-border pt-3 type-caption md:border-t-0 md:pt-0">
+              <div className="flex justify-between gap-4">
+                <dt className="text-muted-foreground">Typeface</dt>
+                <dd>Inter</dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt className="text-muted-foreground">Scale</dt>
+                <dd data-tabular>11—32</dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt className="text-muted-foreground">Grid</dt>
+                <dd data-tabular>4px</dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt className="text-muted-foreground">Mode</dt>
+                <dd>{dark ? "Dark" : "Light"}</dd>
+              </div>
+            </dl>
           </section>
 
           <section className="border-t border-border py-12">
             <SectionHeading
-              eyebrow="Direction"
-              title="Compare complete visual systems"
-              description="Switching direction changes color, typography, shape, surface depth, and contrast together. Every option includes a tuned dark mode."
+              index="01 / Color"
+              title="Neutral by default"
+              description="Pure white and neutral off-black anchor the system. Grays organize secondary information, rules, and surfaces without adding a visual theme of their own."
             />
-            <div className="mt-8 md:ml-[11rem]">
-              <ThemePicker selected={themeId} onSelect={setThemeId} />
-            </div>
-          </section>
-
-          <section className="border-t border-border py-12">
-            <SectionHeading
-              eyebrow="Type"
-              title="Application-first typography"
-              description="The scale is compact enough for dense tools, with enough contrast for product marketing and onboarding moments."
-            />
-            <div className="mt-10 grid gap-8 md:ml-[11rem] md:grid-cols-[1fr_14rem]">
-              <div className="space-y-5">
-                <p className="font-display text-title">Build with clarity.</p>
-                <p className="font-display text-heading">Section heading</p>
-                <p className="max-w-[64ch] text-body text-muted-foreground">
-                  Body text carries the work: calm color contrast, comfortable line height, and a
-                  measure that supports scanning without feeling oversized.
-                </p>
-                <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-                  <span className="text-label">Interface label</span>
-                  <span className="text-caption text-muted-foreground">Supporting caption</span>
-                  <span className="text-eyebrow uppercase text-subtle-foreground">Eyebrow</span>
+            <div className="mt-9 grid border-l border-t border-border sm:grid-cols-5 md:ml-[9rem]">
+              {neutralScale.map((color) => (
+                <div key={color.label} className="border-b border-r border-border">
+                  <div className={`h-20 ${color.className}`} />
+                  <div className="flex items-center justify-between gap-3 border-t border-border px-3 py-2.5 type-caption">
+                    <span>{color.label}</span>
+                    <span className="text-subtle-foreground">{dark ? color.dark : color.light}</span>
+                  </div>
                 </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="border-t border-border py-12">
+            <SectionHeading
+              index="02 / Type"
+              title="One family, fewer gestures"
+              description="Inter carries every role. Size changes are compact, weight stays mostly regular or medium, and text color provides the remaining hierarchy."
+            />
+            <div className="mt-9 border-t border-border md:ml-[9rem]">
+              <div className="grid gap-2 border-b border-border py-5 sm:grid-cols-[7rem_1fr_auto] sm:items-baseline">
+                <span className="type-caption text-subtle-foreground">Display · 32/36</span>
+                <span className="font-display type-display">Build with clarity.</span>
+                <span className="type-caption text-muted-foreground">500</span>
               </div>
-              <div className="rounded-md border border-border bg-secondary p-4 font-mono text-caption text-muted-foreground">
-                <p data-tabular>Revenue&nbsp;&nbsp;$24,880</p>
-                <p data-tabular>Growth&nbsp;&nbsp;&nbsp;&nbsp;+18.4%</p>
-                <p data-tabular>Latency&nbsp;&nbsp;&nbsp;&nbsp;82ms</p>
+              <div className="grid gap-2 border-b border-border py-5 sm:grid-cols-[7rem_1fr_auto] sm:items-baseline">
+                <span className="type-caption text-subtle-foreground">Title · 24/30</span>
+                <span className="font-display type-title">A measured title</span>
+                <span className="type-caption text-muted-foreground">500</span>
+              </div>
+              <div className="grid gap-2 border-b border-border py-5 sm:grid-cols-[7rem_1fr_auto] sm:items-baseline">
+                <span className="type-caption text-subtle-foreground">Heading · 18/24</span>
+                <span className="font-display type-heading">Section heading</span>
+                <span className="type-caption text-muted-foreground">500</span>
+              </div>
+              <div className="grid gap-2 border-b border-border py-5 sm:grid-cols-[7rem_1fr_auto] sm:items-baseline">
+                <span className="type-caption text-subtle-foreground">Body · 14/21</span>
+                <span className="max-w-[60ch] type-body text-muted-foreground">
+                  Calm contrast and a comfortable line height make dense interfaces easier to scan.
+                </span>
+                <span className="type-caption text-muted-foreground">400</span>
               </div>
             </div>
           </section>
 
           <section className="border-t border-border py-12">
             <SectionHeading
-              eyebrow="Controls"
-              title="Buttons with complete interaction intent"
-              description="The first component establishes control height, optical padding, icon sizing, focus treatment, press behavior, and disabled/loading states."
+              index="03 / Controls"
+              title="Controls without decoration"
+              description="Actions use neutral contrast, precise borders, compact geometry, and restrained state changes instead of color, shine, or physical movement."
             />
-            <div className="mt-10 space-y-8 md:ml-[11rem]">
-              <div className="flex flex-wrap items-center gap-3">
+            <div className="mt-9 space-y-7 md:ml-[9rem]">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button>Primary</Button>
                 <Button variant="secondary">Secondary</Button>
                 <Button variant="outline">Outline</Button>
@@ -227,11 +176,11 @@ export function App() {
                 <Button variant="destructive">Delete</Button>
                 <Button variant="link">Text link</Button>
               </div>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button size="sm">Small</Button>
                 <Button>Default</Button>
                 <Button size="lg">Large</Button>
-                <Button loading>Saving changes</Button>
+                <Button loading>Saving</Button>
                 <Button disabled>Unavailable</Button>
                 <Button variant="outline" size="icon" aria-label="Open settings">
                   <Settings2 />
@@ -242,12 +191,12 @@ export function App() {
 
           <section className="border-t border-border py-12">
             <SectionHeading
-              eyebrow="Composition"
-              title="Fields and cards in a realistic setting"
-              description="A small billing screen exposes spacing, surface hierarchy, validation, alignment, and action density better than isolated swatches."
+              index="04 / Form"
+              title="Structure before surface"
+              description="Borders and spacing define regions. Cards remain flat, labels stay compact, and supporting information steps back through neutral text contrast."
             />
 
-            <div className="mt-10 grid gap-5 md:ml-[11rem] lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="mt-9 grid gap-4 md:ml-[9rem] lg:grid-cols-[1.2fr_0.8fr]">
               <Card>
                 <CardHeader>
                   <CardTitle>Billing details</CardTitle>
@@ -283,7 +232,7 @@ export function App() {
                 </CardFooter>
               </Card>
 
-              <div className="grid gap-5">
+              <div className="grid gap-4">
                 <Card interactive tabIndex={0} role="button">
                   <CardHeader>
                     <CardDescription>Current plan</CardDescription>
@@ -293,13 +242,13 @@ export function App() {
                     </CardAction>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-end gap-1">
-                      <span className="font-display text-title">$24</span>
-                      <span className="pb-1 text-caption text-muted-foreground">/ month</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="font-display type-title" data-tabular>$24</span>
+                      <span className="type-caption text-muted-foreground">/ month</span>
                     </div>
                   </CardContent>
                   <CardFooter className="justify-between">
-                    <span className="text-caption text-muted-foreground">Renews Sep 21</span>
+                    <span className="type-caption text-muted-foreground">Renews Sep 21</span>
                     <ArrowRight className="size-4" />
                   </CardFooter>
                 </Card>
@@ -310,8 +259,8 @@ export function App() {
                     <CardTitle data-tabular>8,420 / 10,000</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                      <div className="h-full w-[84%] rounded-full bg-primary" />
+                    <div className="h-px bg-border">
+                      <div className="h-px w-[84%] bg-foreground" />
                     </div>
                   </CardContent>
                 </Card>

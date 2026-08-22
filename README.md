@@ -9,10 +9,8 @@ inside every consuming application.
 
 ## Current foundation
 
-- Three visual directions with tuned light and dark modes:
-  - **Warm Precision** — ivory, charcoal, and cobalt (recommended)
-  - **Cool Studio** — porcelain, ink, and iris
-  - **Signal Modernist** — newsprint, serif display type, and vermilion
+- A monochrome, Swiss-editorial direction with tuned light and dark modes
+- Inter across the complete type system, with a compact 11–32px scale
 - Semantic color, typography, spacing, radius, elevation, focus, and motion tokens
 - Polished Button, Input/Field, and Card components
 - A realistic calibration playground rather than isolated component examples
@@ -42,7 +40,7 @@ pnpm preview     # preview the production build locally
 registry.json             GitHub registry catalog
 registry/special/
   lib/                    shared utilities
-  styles/theme.css        semantic tokens and theme directions
+  styles/theme.css        semantic tokens and light/dark foundations
   ui/                     source-installed components
 playground/               Vite component lab and documentation site
 docs/V2_PLAN.md           component roadmap and quality bar

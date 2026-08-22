@@ -12,8 +12,3 @@ body,
 body {
   margin: 0;
 }
-
-button,
-input {
-  font: inherit;
-}

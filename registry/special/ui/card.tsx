@@ -5,16 +5,16 @@ import { cn } from "@/lib/utils"
 
 const cardVariants = cva(
   [
-    "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-lg border py-(--card-spacing)",
-    "text-body text-card-foreground transition-[border-color,box-shadow,transform,background-color] duration-normal ease-special",
+    "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-md border py-(--card-spacing)",
+    "type-body text-card-foreground transition-[border-color,background-color] duration-normal ease-special",
     "has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0",
     "motion-reduce:transform-none motion-reduce:transition-none",
   ],
   {
     variants: {
       variant: {
-        default: "border-border bg-card shadow-card",
-        subtle: "border-transparent bg-secondary",
+        default: "border-border bg-card",
+        subtle: "border-border bg-secondary",
         outline: "border-border bg-transparent shadow-none",
       },
       size: {
@@ -23,7 +23,7 @@ const cardVariants = cva(
         lg: "[--card-spacing:--spacing(6)]",
       },
       interactive: {
-        true: "cursor-pointer hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card-hover active:translate-y-0",
+        true: "cursor-pointer hover:border-border-strong hover:bg-secondary",
         false: "",
       },
     },
@@ -70,7 +70,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-title"
-      className={cn("text-label text-card-foreground", className)}
+      className={cn("type-label text-card-foreground", className)}
       {...props}
     />
   )
@@ -80,7 +80,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-caption text-muted-foreground", className)}
+      className={cn("type-caption text-muted-foreground", className)}
       {...props}
     />
   )
@@ -105,7 +105,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center border-t border-border bg-secondary/55 p-(--card-spacing)",
+        "flex items-center border-t border-border p-(--card-spacing)",
         className
       )}
       {...props}

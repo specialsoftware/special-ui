@@ -13,16 +13,10 @@ The original package-based implementation is preserved on the `v1` branch. The
 
 ## Foundation calibration
 
-The playground currently exposes three directions through the same component
-implementations:
-
-1. **Warm Precision** — warm paper neutrals, charcoal, and cobalt. Recommended.
-2. **Cool Studio** — cool porcelain neutrals and iris with more breathing room.
-3. **Signal Modernist** — newsprint neutrals, serif display typography, and vermilion.
-
-Before expanding the catalog, choose a primary direction and tune it in both
-light and dark modes. The unused directions can then be removed or retained as
-optional themes.
+The primary direction is monochrome and editorial: Inter throughout, a compact
+11–32px type scale, neutral off-black and white anchors, fine rules, small
+radii, flat product surfaces, and color reserved for semantic status. The same
+semantic contract is tuned for light and dark modes.
 
 ## Component batches
 

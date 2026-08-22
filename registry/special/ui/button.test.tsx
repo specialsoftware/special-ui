@@ -21,6 +21,15 @@ describe("Button", () => {
     expect(button.querySelector('[data-slot="button-spinner"]')).toBeInTheDocument()
   })
 
+  it("composes type size and foreground color without class conflicts", () => {
+    render(<Button size="sm">Small action</Button>)
+
+    expect(screen.getByRole("button", { name: "Small action" })).toHaveClass(
+      "type-caption",
+      "text-primary-foreground"
+    )
+  })
+
   it("lets consumer utility classes override built-in classes", () => {
     render(<Button className="h-12 rounded-none">Custom</Button>)
 

@@ -7,13 +7,9 @@
       "name": "special-theme",
       "type": "registry:style",
       "title": "Special UI Theme",
-      "description": "The Special UI semantic token system and three calibration themes.",
+      "description": "The Special UI monochrome semantic token system with light and dark modes.",
       "extends": "none",
-      "dependencies": [
-        "@fontsource-variable/geist",
-        "@fontsource-variable/inter",
-        "@fontsource-variable/newsreader"
-      ],
+      "dependencies": ["@fontsource-variable/inter"],
       "files": [
         {
           "path": "registry/special/styles/theme.css",
