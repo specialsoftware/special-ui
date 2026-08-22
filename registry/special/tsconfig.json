@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": "../..",
+    "paths": {
+      "@/components/ui/*": ["registry/special/ui/*"],
+      "@/lib/utils": ["registry/special/lib/utils.ts"]
+    }
+  },
+  "include": ["lib/**/*.ts", "ui/**/*.ts", "ui/**/*.tsx"],
+  "exclude": ["ui/**/*.test.ts", "ui/**/*.test.tsx"]
+}

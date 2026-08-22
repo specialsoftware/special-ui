@@ -6,10 +6,15 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
-    alias: {
-      // Point at source rather than `dist` so edits to the library hot-reload
-      // without a rebuild. Remove this alias to test the published artifact.
-      '@special-ui/react': fileURLToPath(new URL('../packages/react/src', import.meta.url)),
-    },
+    alias: [
+      {
+        find: '@/components/ui',
+        replacement: fileURLToPath(new URL('../registry/special/ui', import.meta.url)),
+      },
+      {
+        find: '@/lib/utils',
+        replacement: fileURLToPath(new URL('../registry/special/lib/utils.ts', import.meta.url)),
+      },
+    ],
   },
 });

@@ -1,178 +1,94 @@
-# special-ui
+# Special UI
 
-A Tailwind-first React component library built on [Base UI](https://base-ui.com)
-primitives.
+A personal product design system built from shadcn's Base UI components and
+distributed as an open-code registry.
 
-Base UI supplies the behaviour — accessibility, focus management, keyboard
-interaction, form participation. This repository supplies the design system: a
-Swiss/editorial theme, a variants API, and styled parts that keep every Base UI
-escape hatch intact.
+Special UI adds a semantic visual language, polished interaction states, and
+reusable product conventions while keeping component source directly editable
+inside every consuming application.
 
-The design is monochrome and typographic. Hierarchy comes from type size,
-weight and value contrast rather than colour; surfaces separate with hairline
-rules rather than shadows; the only hue in the system is destructive red. Light
-and dark are a single inverted token pair, so components carry no `dark:`
-variants at all.
+## Current foundation
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for how Base UI works internally and
-how this layer plugs into it.
+- Three visual directions with tuned light and dark modes:
+  - **Warm Precision** — ivory, charcoal, and cobalt (recommended)
+  - **Cool Studio** — porcelain, ink, and iris
+  - **Signal Modernist** — newsprint, serif display type, and vermilion
+- Semantic color, typography, spacing, radius, elevation, focus, and motion tokens
+- Polished Button, Input/Field, and Card components
+- A realistic calibration playground rather than isolated component examples
+- A GitHub-compatible shadcn registry
 
-## Quick start
+The original Base UI package implementation is preserved on the `v1` branch.
+
+## Local development
 
 ```bash
 pnpm install
-pnpm dev      # playground at http://localhost:5173
-pnpm test     # 52 tests
-pnpm build    # build the library
+pnpm dev
 ```
 
-## Usage
-
-```css
-/* app.css */
-@import 'tailwindcss';
-@import '@special-ui/react/theme.css';
-```
-
-The library declares `--font-sans` but does not load a webfont, keeping the
-package free of network dependencies. Install Inter yourself:
+The playground runs at `http://localhost:5173`.
 
 ```bash
-pnpm add @fontsource-variable/inter
+pnpm test        # component tests
+pnpm typescript  # registry source typecheck
+pnpm build       # production playground build
+pnpm preview     # preview the production build locally
 ```
 
-```ts
-import '@fontsource-variable/inter';
+## Repository layout
+
+```text
+registry.json             GitHub registry catalog
+registry/special/
+  lib/                    shared utilities
+  styles/theme.css        semantic tokens and theme directions
+  ui/                     source-installed components
+playground/               Vite component lab and documentation site
+docs/V2_PLAN.md           component roadmap and quality bar
 ```
 
-```tsx
-import { Button } from '@special-ui/react/button';
-import { Switch } from '@special-ui/react/switch';
-import { Text } from '@special-ui/react/text';
-import { Dialog } from '@special-ui/react/dialog';
+## Install components
 
-<Button variant="danger" size="sm">Delete</Button>
+After initializing shadcn in a consuming project, install items directly from
+GitHub:
 
-<Text variant="eyebrow">Components</Text>
-<Text variant="display" render={<h1 />}>Unstyled UI components</Text>
-<Text measure>Running prose, capped at a readable measure.</Text>
-
-<Switch.Root size="lg" defaultChecked>
-  <Switch.Thumb />
-</Switch.Root>
-
-<Dialog.Root>
-  <Dialog.Trigger render={<Button variant="danger" />}>Delete project</Dialog.Trigger>
-  <Dialog.Portal>
-    <Dialog.Backdrop />
-    <Dialog.Popup size="lg">
-      <Dialog.Title>Delete project</Dialog.Title>
-      <Dialog.Description>This cannot be undone.</Dialog.Description>
-      <Dialog.Footer>
-        <Dialog.Close variant="danger">Delete</Dialog.Close>
-        <Dialog.Close>Cancel</Dialog.Close>
-      </Dialog.Footer>
-    </Dialog.Popup>
-  </Dialog.Portal>
-</Dialog.Root>
+```bash
+pnpm dlx shadcn@latest add specialsoftware/special-ui/button
+pnpm dlx shadcn@latest add specialsoftware/special-ui/input
+pnpm dlx shadcn@latest add specialsoftware/special-ui/field
+pnpm dlx shadcn@latest add specialsoftware/special-ui/card
 ```
 
-### Overriding styles
+Install the visual foundations separately:
 
-Consumer classes always win on conflicting utilities — everything runs through
-`tailwind-merge` before it reaches Base UI:
-
-```tsx
-<Button className="rounded-full bg-fuchsia-600" />   // built-in bg/radius replaced
-<Button className={(state) => (state.disabled ? 'grayscale' : '')} />
+```bash
+pnpm dlx shadcn@latest add specialsoftware/special-ui/special-theme
 ```
 
-Any custom token that shares a Tailwind utility prefix must be registered as a
-class group in `styles/cn.ts` — `rounded-button`, `text-body`, `shadow-overlay`
-and the named durations all are. Without that, twMerge cannot tell the token
-from Tailwind's own scale and keeps both classes, leaving CSS source order to
-decide. Add a case to the regression test in `variants.test.ts` whenever you add
-a token of this kind.
+Then import the installed stylesheet from the application's global CSS.
 
-### Swapping the element
+## Deploy to Vercel
 
-`render` is Base UI's, passed straight through — styles and behaviour come with
-it:
+The repository includes `vercel.json`. Import the GitHub repository into Vercel
+with the repository root as the project root. Vercel will install the pnpm
+workspace, build the playground, and publish `playground/dist`.
 
-```tsx
-<Button render={<a href="/pricing" />}>Pricing</Button>
-```
+No runtime server, database, environment variables, or external font requests
+are required.
 
-### Theming
+## Roadmap
 
-Redefine tokens; no need to fork a component. Semantic colours indirect through
-`--su-*` raw values, which is what lets dark mode swap them at runtime.
+The next component batch establishes the shared floating-surface language:
 
-```css
-:root { --su-bg: oklch(99% 0 0deg); --su-accent: oklch(12% 0 0deg); }
-.dark { --su-bg: oklch(8.5% 0 0deg); --su-accent: oklch(97% 0 0deg); }
-```
+- Tooltip
+- Dropdown Menu
+- Select
+- Combobox
 
-Shape is a token too, split by shape language rather than component taxonomy —
-buttons are pills, fields are near-square, and no single value is right for
-both. Squaring off every button is one line, with no component or call site
-touched:
-
-```css
-@theme { --radius-button: 0.25rem; }
-```
-
-If you scope the theme to an element rather than `<html>`, wrap the app in
-`SpecialUIProvider` so portalled surfaces (dialogs, popovers) follow it too:
-
-```tsx
-<SpecialUIProvider theme={dark ? 'dark' : undefined}>
-  <div className={dark ? 'dark' : undefined}>{children}</div>
-</SpecialUIProvider>
-```
-
-## Layout
-
-```
-packages/react/   the library (@special-ui/react)
-playground/       Vite app for manual testing
-test/             shared test setup
-```
-
-## Building your own parts
-
-```tsx
-import { defineSlots, createStyledPart, createVariantContext } from '@special-ui/react';
-
-const styles = defineSlots({
-  slots: { root: 'rounded-surface border', label: 'text-sm' },
-  variants: { size: { sm: { root: 'p-2', label: 'text-xs' }, md: { root: 'p-4' } } },
-  defaultVariants: { size: 'md' },
-});
-
-const [Provider, useVariants] = createVariantContext<{ size?: 'sm' | 'md' }>('CardVariants');
-
-export const CardRoot = createStyledPart(BaseThing.Root, styles.root, {
-  displayName: 'Card.Root',
-  provideVariants: Provider,
-});
-
-export const CardLabel = createStyledPart(BaseThing.Label, styles.label, {
-  displayName: 'Card.Label',
-  useVariants,
-});
-```
-
-## Scripts
-
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Playground dev server |
-| `pnpm test` | Run tests |
-| `pnpm test:watch` | Watch mode |
-| `pnpm build` | Build `@special-ui/react` to `dist/` |
-| `pnpm typescript` | Typecheck |
+Dialog, Tabs, and Toast follow once those shared popup and menu recipes are
+settled. See [docs/V2_PLAN.md](./docs/V2_PLAN.md) for the full plan.
 
 ## License
 
-MIT. Base UI is MIT-licensed and used as a dependency.
+MIT. Base UI and shadcn are used under their respective open-source licenses.

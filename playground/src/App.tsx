@@ -1,227 +1,325 @@
-import { useState } from 'react';
-import { SpecialUIProvider } from '@special-ui/react/provider';
-import { Button } from '@special-ui/react/button';
-import { Switch } from '@special-ui/react/switch';
-import { Text } from '@special-ui/react/text';
-import { Dialog } from '@special-ui/react/dialog';
+import { useState } from "react"
+import {
+  ArrowRight,
+  Check,
+  CreditCard,
+  Moon,
+  MoreHorizontal,
+  Settings2,
+  Sparkles,
+  Sun,
+} from "lucide-react"
 
-/**
- * The editorial grid: a narrow label column and a wide content column, divided
- * by a hairline. Repeating this one row shape down the page is what produces
- * the Swiss look — far more than any individual component does.
- */
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+const themes = [
+  {
+    id: "warm",
+    name: "Warm Precision",
+    description: "Ivory, charcoal, and cobalt. Editorial restraint for premium product UI.",
+    className: "theme-warm",
+    swatches: ["bg-background", "bg-card", "bg-secondary", "bg-primary", "bg-destructive"],
+  },
+  {
+    id: "cool",
+    name: "Cool Studio",
+    description: "Porcelain, ink, and iris. Softer, friendlier, and more spacious.",
+    className: "theme-cool",
+    swatches: ["bg-background", "bg-card", "bg-secondary", "bg-primary", "bg-destructive"],
+  },
+  {
+    id: "signal",
+    name: "Signal Modernist",
+    description: "Newsprint, black, and vermilion. Compact and graphically direct.",
+    className: "theme-signal",
+    swatches: ["bg-background", "bg-card", "bg-secondary", "bg-primary", "bg-destructive"],
+  },
+] as const
+
+type ThemeId = (typeof themes)[number]["id"]
+
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string
+  title: string
+  description: string
+}) {
   return (
-    <section className="grid grid-cols-1 gap-x-10 gap-y-5 border-t border-line py-12 md:grid-cols-[10rem_1fr]">
-      <Text variant="eyebrow" render={<h2 />} className="pt-1">
-        {label}
-      </Text>
-      <div className="flex flex-col gap-8">{children}</div>
-    </section>
-  );
-}
-
-function Cluster({ children }: { children: React.ReactNode }) {
-  return <div className="flex flex-wrap items-center gap-3">{children}</div>;
-}
-
-function Spec({ children, note }: { children: React.ReactNode; note: string }) {
-  return (
-    <div className="flex flex-col gap-3">
-      <Text variant="caption" className="text-fg-subtle">
-        {note}
-      </Text>
-      {children}
+    <div className="grid gap-3 md:grid-cols-[9rem_1fr] md:gap-8">
+      <p className="pt-1 text-eyebrow uppercase text-subtle-foreground">{eyebrow}</p>
+      <div className="max-w-2xl">
+        <h2 className="font-display text-heading text-foreground">{title}</h2>
+        <p className="mt-2 text-body text-muted-foreground">{description}</p>
+      </div>
     </div>
-  );
+  )
+}
+
+function ThemePicker({ selected, onSelect }: { selected: ThemeId; onSelect: (id: ThemeId) => void }) {
+  return (
+    <div className="grid gap-3 lg:grid-cols-3">
+      {themes.map((theme) => {
+        const active = selected === theme.id
+        return (
+          <button
+            key={theme.id}
+            type="button"
+            onClick={() => onSelect(theme.id)}
+            aria-pressed={active}
+            className="group rounded-lg border border-border bg-card p-4 text-left shadow-card outline-none transition-[border-color,box-shadow,transform] duration-normal ease-special hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card-hover focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/20 active:translate-y-0"
+          >
+            <span className="flex items-start justify-between gap-4">
+              <span>
+                <span className="block text-label text-foreground">{theme.name}</span>
+                <span className="mt-1 block text-caption text-muted-foreground">{theme.description}</span>
+              </span>
+              <span
+                className="flex size-5 shrink-0 items-center justify-center rounded-full border border-border text-primary"
+                aria-hidden="true"
+              >
+                {active && <Check className="size-3" strokeWidth={2.5} />}
+              </span>
+            </span>
+            <span className="mt-4 flex gap-1.5" aria-hidden="true">
+              {theme.swatches.map((swatch) => (
+                <span key={swatch} className={`h-5 flex-1 rounded-sm border border-border ${swatch}`} />
+              ))}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
 }
 
 export function App() {
-  const [dark, setDark] = useState(true);
-  const theme = dark ? 'dark' : undefined;
+  const [themeId, setThemeId] = useState<ThemeId>("warm")
+  const [dark, setDark] = useState(false)
+  const theme = themes.find((item) => item.id === themeId) ?? themes[0]
 
   return (
-    /*
-     * The theme is scoped to a `<div>` rather than `<html>`, which is the case
-     * that breaks naively-portalled popups. The provider gives Dialog a themed
-     * container on `document.body` so the dialog follows the theme too.
-     */
-    <SpecialUIProvider theme={theme}>
-      <div className={theme}>
-        <div className="min-h-screen bg-bg text-fg antialiased">
-          <div className="mx-auto max-w-5xl px-6 md:px-10">
-            <header className="flex items-baseline justify-between py-6">
-              <Text variant="label" className="font-medium">
-                special-ui
-              </Text>
-              <div className="flex items-center gap-6">
-                <Button variant="link" size="sm" render={<a href="#components" />}>
-                  Components
-                </Button>
-                <Button
-                  variant="link"
-                  size="sm"
-                  render={<a href="https://base-ui.com" target="_blank" rel="noreferrer" />}
-                >
-                  Base UI
-                </Button>
-                <label className="flex items-center gap-2.5">
-                  <Text variant="caption" render={<span />}>
-                    Dark
-                  </Text>
-                  <Switch.Root
-                    size="sm"
-                    checked={dark}
-                    onCheckedChange={setDark}
-                    aria-label="Dark mode"
-                  >
-                    <Switch.Thumb />
-                  </Switch.Root>
-                </label>
+    <div className={`${theme.className} ${dark ? "dark" : ""} special-ui-theme`}>
+      <div className="min-h-screen bg-background text-foreground">
+        <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur-xl">
+          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
+            <div className="flex items-center gap-3">
+              <span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.16)]">
+                <Sparkles className="size-4" />
+              </span>
+              <div>
+                <p className="text-label">Special UI</p>
+                <p className="text-caption text-muted-foreground">Foundation calibration</p>
               </div>
-            </header>
+            </div>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              onClick={() => setDark((value) => !value)}
+              aria-label={dark ? "Use light theme" : "Use dark theme"}
+            >
+              {dark ? <Sun /> : <Moon />}
+            </Button>
+          </div>
+        </header>
 
-            <div className="grid grid-cols-1 gap-x-10 py-20 md:grid-cols-[10rem_1fr]">
-              <div />
-              <div className="flex flex-col gap-8">
-                <Text variant="display" render={<h1 />}>
-                  A Tailwind-first component library, built on Base UI.
-                </Text>
-                <Text measure>
-                  Base UI supplies the behaviour — accessibility, focus management, keyboard
-                  interaction. This layer supplies the design system: a monochrome token set, an
-                  editorial type scale, and styled parts that keep every escape hatch intact.
-                </Text>
-                <Cluster>
-                  <Button>Get started</Button>
-                  <Button variant="secondary">Documentation</Button>
-                </Cluster>
+        <main className="mx-auto max-w-6xl px-5 pb-24 md:px-8">
+          <section className="grid gap-10 py-16 md:grid-cols-[1fr_18rem] md:items-end md:py-24">
+            <div className="max-w-3xl">
+              <p className="text-eyebrow uppercase text-primary">Special UI · v2</p>
+              <h1 className="mt-5 max-w-[18ch] font-display text-display text-foreground">
+                A quieter foundation for ambitious products.
+              </h1>
+              <p className="mt-6 max-w-[62ch] text-body text-muted-foreground">
+                One semantic system, three visual directions. The components below share the same
+                structure and behavior so we can judge the design language rather than isolated
+                mockups.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button>
+                  Start a project <ArrowRight data-icon="inline-end" />
+                </Button>
+                <Button variant="secondary">Read the principles</Button>
               </div>
             </div>
 
-            <main id="components">
-              <Row label="Type">
-                <Spec note="Six roles, named for their job. Tracking tightens as size grows.">
-                  <div className="flex flex-col gap-4">
-                    <Text variant="display">Display</Text>
-                    <Text variant="title">Title</Text>
-                    <Text variant="heading">Heading</Text>
-                    <Text variant="body" className="text-fg">
-                      Body — running prose, set at a readable measure.
-                    </Text>
-                    <Text variant="label">Label</Text>
-                    <Text variant="caption">Caption</Text>
-                    <Text variant="eyebrow">Eyebrow</Text>
-                  </div>
-                </Spec>
-              </Row>
+            <Card variant="subtle" size="sm">
+              <CardHeader>
+                <CardDescription>Active direction</CardDescription>
+                <CardTitle>{theme.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-caption text-muted-foreground">{theme.description}</p>
+              </CardContent>
+            </Card>
+          </section>
 
-              <Row label="Button">
-                <Spec note="Primary inverts against the canvas, so it needs no dark: variant.">
-                  <Cluster>
-                    <Button>Primary</Button>
-                    <Button variant="secondary">Secondary</Button>
-                    <Button variant="ghost">Ghost</Button>
-                    <Button variant="danger">Danger</Button>
-                    <Button variant="link">Link</Button>
-                    <Button disabled>Disabled</Button>
-                  </Cluster>
-                </Spec>
+          <section className="border-t border-border py-12">
+            <SectionHeading
+              eyebrow="Direction"
+              title="Compare complete visual systems"
+              description="Switching direction changes color, typography, shape, surface depth, and contrast together. Every option includes a tuned dark mode."
+            />
+            <div className="mt-8 md:ml-[11rem]">
+              <ThemePicker selected={themeId} onSelect={setThemeId} />
+            </div>
+          </section>
 
-                <Spec note="Compact by default — editorial interfaces run tighter than app UI.">
-                  <Cluster>
-                    <Button size="sm">Small</Button>
-                    <Button size="md">Medium</Button>
-                    <Button size="lg">Large</Button>
-                  </Cluster>
-                </Spec>
+          <section className="border-t border-border py-12">
+            <SectionHeading
+              eyebrow="Type"
+              title="Application-first typography"
+              description="The scale is compact enough for dense tools, with enough contrast for product marketing and onboarding moments."
+            />
+            <div className="mt-10 grid gap-8 md:ml-[11rem] md:grid-cols-[1fr_14rem]">
+              <div className="space-y-5">
+                <p className="font-display text-title">Build with clarity.</p>
+                <p className="font-display text-heading">Section heading</p>
+                <p className="max-w-[64ch] text-body text-muted-foreground">
+                  Body text carries the work: calm color contrast, comfortable line height, and a
+                  measure that supports scanning without feeling oversized.
+                </p>
+                <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+                  <span className="text-label">Interface label</span>
+                  <span className="text-caption text-muted-foreground">Supporting caption</span>
+                  <span className="text-eyebrow uppercase text-subtle-foreground">Eyebrow</span>
+                </div>
+              </div>
+              <div className="rounded-md border border-border bg-secondary p-4 font-mono text-caption text-muted-foreground">
+                <p data-tabular>Revenue&nbsp;&nbsp;$24,880</p>
+                <p data-tabular>Growth&nbsp;&nbsp;&nbsp;&nbsp;+18.4%</p>
+                <p data-tabular>Latency&nbsp;&nbsp;&nbsp;&nbsp;82ms</p>
+              </div>
+            </div>
+          </section>
 
-                <Spec note="render swaps the element; className overrides win through twMerge.">
-                  <Cluster>
-                    <Button variant="secondary" render={<a href="https://base-ui.com" />}>
-                      Renders an anchor
+          <section className="border-t border-border py-12">
+            <SectionHeading
+              eyebrow="Controls"
+              title="Buttons with complete interaction intent"
+              description="The first component establishes control height, optical padding, icon sizing, focus treatment, press behavior, and disabled/loading states."
+            />
+            <div className="mt-10 space-y-8 md:ml-[11rem]">
+              <div className="flex flex-wrap items-center gap-3">
+                <Button>Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="destructive">Delete</Button>
+                <Button variant="link">Text link</Button>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <Button size="sm">Small</Button>
+                <Button>Default</Button>
+                <Button size="lg">Large</Button>
+                <Button loading>Saving changes</Button>
+                <Button disabled>Unavailable</Button>
+                <Button variant="outline" size="icon" aria-label="Open settings">
+                  <Settings2 />
+                </Button>
+              </div>
+            </div>
+          </section>
+
+          <section className="border-t border-border py-12">
+            <SectionHeading
+              eyebrow="Composition"
+              title="Fields and cards in a realistic setting"
+              description="A small billing screen exposes spacing, surface hierarchy, validation, alignment, and action density better than isolated swatches."
+            />
+
+            <div className="mt-10 grid gap-5 md:ml-[11rem] lg:grid-cols-[1.15fr_0.85fr]">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Billing details</CardTitle>
+                  <CardDescription>Receipts and renewal notices will be sent here.</CardDescription>
+                  <CardAction>
+                    <Button variant="ghost" size="icon-sm" aria-label="More billing options">
+                      <MoreHorizontal />
                     </Button>
-                    <Button className="rounded-none">Squared off</Button>
-                  </Cluster>
-                </Spec>
-              </Row>
+                  </CardAction>
+                </CardHeader>
+                <CardContent>
+                  <FieldGroup>
+                    <Field>
+                      <FieldLabel htmlFor="company">Company name</FieldLabel>
+                      <Input id="company" defaultValue="Special Software" />
+                      <FieldDescription>Displayed on invoices and receipts.</FieldDescription>
+                    </Field>
+                    <Field data-invalid="true">
+                      <FieldLabel htmlFor="billing-email">Billing email</FieldLabel>
+                      <Input
+                        id="billing-email"
+                        type="email"
+                        defaultValue="accounts@"
+                        aria-invalid="true"
+                      />
+                      <FieldError>Enter a complete email address.</FieldError>
+                    </Field>
+                  </FieldGroup>
+                </CardContent>
+                <CardFooter className="justify-end gap-2">
+                  <Button variant="ghost">Cancel</Button>
+                  <Button>Save changes</Button>
+                </CardFooter>
+              </Card>
 
-              <Row label="Switch">
-                <Spec note="Off reads as an empty field: a hairline inset ring, not a filled pill.">
-                  <Cluster>
-                    <Switch.Root size="sm">
-                      <Switch.Thumb />
-                    </Switch.Root>
-                    <Switch.Root size="md" defaultChecked>
-                      <Switch.Thumb />
-                    </Switch.Root>
-                    <Switch.Root size="lg" defaultChecked>
-                      <Switch.Thumb />
-                    </Switch.Root>
-                    <Switch.Root variant="danger" defaultChecked>
-                      <Switch.Thumb />
-                    </Switch.Root>
-                    <Switch.Root disabled>
-                      <Switch.Thumb />
-                    </Switch.Root>
-                  </Cluster>
-                </Spec>
-              </Row>
+              <div className="grid gap-5">
+                <Card interactive tabIndex={0} role="button">
+                  <CardHeader>
+                    <CardDescription>Current plan</CardDescription>
+                    <CardTitle>Studio</CardTitle>
+                    <CardAction>
+                      <CreditCard className="size-4 text-muted-foreground" />
+                    </CardAction>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-end gap-1">
+                      <span className="font-display text-title">$24</span>
+                      <span className="pb-1 text-caption text-muted-foreground">/ month</span>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="justify-between">
+                    <span className="text-caption text-muted-foreground">Renews Sep 21</span>
+                    <ArrowRight className="size-4" />
+                  </CardFooter>
+                </Card>
 
-              <Row label="Dialog">
-                <Spec note="Enters on a short rise, never a zoom. Footer is divided by a hairline.">
-                  <Cluster>
-                    <Dialog.Root>
-                      <Dialog.Trigger render={<Button variant="danger" />}>
-                        Delete project
-                      </Dialog.Trigger>
-                      <Dialog.Portal>
-                        <Dialog.Backdrop />
-                        <Dialog.Popup>
-                          <Dialog.Title>Delete project</Dialog.Title>
-                          <Dialog.Description>
-                            This permanently removes the project and everything in it. This action
-                            cannot be undone.
-                          </Dialog.Description>
-                          <Dialog.Footer>
-                            <Dialog.Close variant="danger">Delete</Dialog.Close>
-                            <Dialog.Close>Cancel</Dialog.Close>
-                          </Dialog.Footer>
-                        </Dialog.Popup>
-                      </Dialog.Portal>
-                    </Dialog.Root>
-
-                    <Dialog.Root>
-                      <Dialog.Trigger render={<Button variant="secondary" />}>
-                        Large dialog
-                      </Dialog.Trigger>
-                      <Dialog.Portal>
-                        <Dialog.Backdrop />
-                        <Dialog.Popup size="lg">
-                          <Dialog.Title>Release notes</Dialog.Title>
-                          <Dialog.Description>
-                            The size variant flows from the popup down to the parts through
-                            context, so each part is styled once and stays consistent.
-                          </Dialog.Description>
-                          <Dialog.Footer>
-                            <Dialog.Close variant="primary">Got it</Dialog.Close>
-                          </Dialog.Footer>
-                        </Dialog.Popup>
-                      </Dialog.Portal>
-                    </Dialog.Root>
-                  </Cluster>
-                </Spec>
-              </Row>
-            </main>
-
-            <footer className="border-t border-line py-10">
-              <Text variant="caption">
-                Monochrome by design. The only hue in the system is destructive red.
-              </Text>
-            </footer>
-          </div>
-        </div>
+                <Card variant="subtle" size="sm">
+                  <CardHeader>
+                    <CardDescription>Usage this month</CardDescription>
+                    <CardTitle data-tabular>8,420 / 10,000</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                      <div className="h-full w-[84%] rounded-full bg-primary" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+        </main>
       </div>
-    </SpecialUIProvider>
-  );
+    </div>
+  )
 }

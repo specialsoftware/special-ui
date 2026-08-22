@@ -1,9 +1,19 @@
-@import 'tailwindcss';
-@import '@special-ui/react/theme.css';
+@import "tailwindcss";
+@import "../../registry/special/styles/theme.css";
 
-/*
- * The alias in vite.config.ts resolves the library to `src`, so Tailwind needs
- * to scan the source files rather than the `dist` files that theme.css points
- * at by default. A consumer of the published package does not need this line.
- */
-@source '../../packages/react/src';
+@source "../../registry/special";
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}

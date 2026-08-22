@@ -1,0 +1,90 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "special-ui",
+  "homepage": "https://github.com/specialsoftware/special-ui",
+  "items": [
+    {
+      "name": "special-theme",
+      "type": "registry:style",
+      "title": "Special UI Theme",
+      "description": "The Special UI semantic token system and three calibration themes.",
+      "extends": "none",
+      "dependencies": [
+        "@fontsource-variable/geist",
+        "@fontsource-variable/inter",
+        "@fontsource-variable/newsreader"
+      ],
+      "files": [
+        {
+          "path": "registry/special/styles/theme.css",
+          "type": "registry:file",
+          "target": "styles/special-ui.css"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A polished Base UI button with loading, icon, size, and intent variants.",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/special/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A Base UI input with consistent sizing and complete interaction states.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/special/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Composable labels, descriptions, validation errors, and field layouts.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/special/ui/field.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/special/ui/label.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/special/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A layered product surface with size, treatment, and interactive variants.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/special/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}
