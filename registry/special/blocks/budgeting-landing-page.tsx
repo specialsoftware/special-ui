@@ -74,12 +74,8 @@ function BudgetingLandingPage() {
         <section className="mx-auto grid max-w-7xl items-center gap-14 px-5 pb-16 pt-16 md:px-8 md:pb-24 md:pt-24 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
           <div>
             <h1 className="max-w-[10ch] text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.96] tracking-[-0.065em]">
-              Your money, finally legible.
+              Turn any bank CSV into a clear monthly budget.
             </h1>
-            <p className="mt-7 max-w-[48ch] text-[1.0625rem] leading-7 text-muted-foreground">
-              Turn exports from every bank into one clean budget. No account connection, no
-              spreadsheet cleanup, and no financial data left behind.
-            </p>
             <div className="mt-8 flex flex-wrap gap-2">
               <a href="#upload" className={buttonVariants({ size: "lg" })}>
                 Categorize a CSV <ArrowRight data-icon="inline-end" />
@@ -177,22 +173,17 @@ function BudgetingLandingPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
             <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
               <div>
-                <h2 className="max-w-[13ch] type-display">A useful budget in the time it takes to make coffee.</h2>
-                <p className="mt-5 max-w-md type-body text-muted-foreground">
-                  Export what your bank already gives you. We clean the file, categorize every row,
-                  and turn the result into something you can act on.
-                </p>
+                <h2 className="max-w-[15ch] type-display">Go from bank export to useful budget in under two minutes.</h2>
               </div>
               <ol className="grid border-t border-border sm:grid-cols-3 sm:border-l">
                 {[
-                  ["1", "Export", "Download a CSV from any bank or card account."],
-                  ["2", "Organize", "Drop in one file or several. Categories appear automatically."],
-                  ["3", "Decide", "Review the month, adjust a rule, and export whenever you want."],
-                ].map(([number, title, description]) => (
+                  ["1", "Export a CSV from any bank or card."],
+                  ["2", "Drop in one file or combine several."],
+                  ["3", "Review a clean budget and export it anywhere."],
+                ].map(([number, title]) => (
                   <li key={number} className="border-b border-border py-5 sm:border-r sm:px-5">
                     <p className="type-caption text-subtle-foreground">{number}</p>
-                    <h3 className="mt-8 type-heading">{title}</h3>
-                    <p className="mt-2 type-body text-muted-foreground">{description}</p>
+                    <h3 className="mt-8 max-w-[16ch] type-heading">{title}</h3>
                   </li>
                 ))}
               </ol>
@@ -284,20 +275,13 @@ function BudgetingLandingPage() {
 
         <section className="border-b border-border bg-secondary/35">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-            <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-              <h2 className="max-w-[15ch] type-display">Less bookkeeping. Better decisions.</h2>
-              <p className="max-w-md type-body text-muted-foreground">
-                Automation is useful only when it produces something understandable. Every feature
-                shortens the distance between a transaction and a decision.
-              </p>
-            </div>
+            <h2 className="max-w-[19ch] type-display">Categorize faster, combine every account, and catch what changed.</h2>
 
             <div className="mt-12 grid gap-4 lg:grid-cols-3">
               <article className="rounded-lg border border-border bg-card p-5 lg:col-span-2 md:p-7">
                 <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-start">
                   <div>
-                    <h3 className="type-heading">Rules that learn your habits</h3>
-                    <p className="mt-2 max-w-md type-body text-muted-foreground">Correct a merchant once and future uploads follow your rule automatically.</p>
+                    <h3 className="max-w-[24ch] type-heading">Correct a merchant once. Every future upload remembers.</h3>
                   </div>
                   <span className="rounded-full border border-border px-3 py-1.5 type-caption">Always in your control</span>
                 </div>
@@ -317,8 +301,7 @@ function BudgetingLandingPage() {
               </article>
 
               <article className="rounded-lg border border-border bg-card p-5 md:p-7">
-                <h3 className="type-heading">Every account, one month</h3>
-                <p className="mt-2 type-body text-muted-foreground">Mix formats from different banks in the same upload.</p>
+                <h3 className="max-w-[18ch] type-heading">Combine every bank and account in one month.</h3>
                 <div className="mt-10 space-y-2">
                   {["Chase checking.csv", "Amex card.csv", "SoFi savings.csv"].map((file, index) => (
                     <div key={file} className="flex items-center justify-between rounded-md border border-border px-3 py-3">
@@ -330,8 +313,7 @@ function BudgetingLandingPage() {
               </article>
 
               <article className="rounded-lg border border-border bg-card p-5 md:p-7">
-                <h3 className="type-heading">Export without lock-in</h3>
-                <p className="mt-2 type-body text-muted-foreground">Take the clean data back to Excel, Sheets, or another budgeting tool.</p>
+                <h3 className="max-w-[18ch] type-heading">Export clean data to CSV, Excel, or Sheets.</h3>
                 <div className="mt-10 grid grid-cols-3 gap-2 type-caption">
                   {["CSV", "XLSX", "Sheets"].map((format) => (
                     <div key={format} className="grid aspect-square place-items-center rounded-md border border-border bg-secondary/45">{format}</div>
@@ -340,8 +322,7 @@ function BudgetingLandingPage() {
               </article>
 
               <article className="rounded-lg border border-border bg-card p-5 lg:col-span-2 md:p-7">
-                <h3 className="type-heading">Catch the thing worth noticing</h3>
-                <p className="mt-2 max-w-lg type-body text-muted-foreground">The month is summarized into plain-language changes, not another wall of charts.</p>
+                <h3 className="max-w-[22ch] type-heading">See what changed without reading another chart.</h3>
                 <div className="mt-8 grid gap-3 sm:grid-cols-3">
                   {[
                     ["Subscriptions", "+$27", "Two new recurring charges"],
@@ -364,22 +345,17 @@ function BudgetingLandingPage() {
           <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
             <div>
               <LockKeyhole className="size-6" />
-              <h2 className="mt-8 max-w-[12ch] type-display">See your money without handing over your bank.</h2>
-              <p className="mt-5 max-w-md type-body text-background/65">
-                A CSV gives you the useful part of connected finance without a permanent connection.
-                Upload, organize, download, and leave.
-              </p>
+              <h2 className="mt-8 max-w-[12ch] type-display">No bank login. No stored statements.</h2>
             </div>
             <div className="grid sm:grid-cols-2">
               {[
-                ["No credentials", "We never ask for a bank username, password, Plaid connection, or OAuth permission."],
-                ["No stored statements", "Your source file and categorized transactions are not retained after processing."],
-                ["Encrypted in transit", "Files move over HTTPS while they are being categorized and returned to your browser."],
-                ["Portable by design", "Export the result at any time. Your financial history is not trapped in an account."],
-              ].map(([title, description], index) => (
+                "No credentials, Plaid connection, or OAuth permission.",
+                "Statements disappear after processing.",
+                "Files stay encrypted in transit.",
+                "Export anytime. Nothing is locked in.",
+              ].map((title, index) => (
                 <div key={title} className={`border-background/20 py-6 sm:p-6 ${index < 2 ? "border-b" : ""} ${index % 2 === 0 ? "sm:border-r" : ""}`}>
                   <h3 className="type-label">{title}</h3>
-                  <p className="mt-3 type-body text-background/60">{description}</p>
                 </div>
               ))}
             </div>
@@ -389,8 +365,7 @@ function BudgetingLandingPage() {
         <section id="questions" className="scroll-mt-20 border-b border-border">
           <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
             <div>
-              <h2 className="type-display">Questions, answered plainly.</h2>
-              <p className="mt-4 type-body text-muted-foreground">Everything you should know before uploading a statement.</p>
+              <h2 className="max-w-[14ch] type-display">Everything to know before uploading a statement.</h2>
             </div>
             <div className="border-t border-border">
               {[
@@ -415,8 +390,7 @@ function BudgetingLandingPage() {
         <section className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
           <div className="grid gap-10 rounded-lg border border-border bg-secondary/45 p-6 md:grid-cols-[1fr_auto] md:items-end md:p-10">
             <div>
-              <h2 className="max-w-[15ch] type-display">Your next bank statement could already be a budget.</h2>
-              <p className="mt-4 max-w-lg type-body text-muted-foreground">Start with one CSV. No account connection and no setup call.</p>
+              <h2 className="max-w-[18ch] type-display">Turn your next bank statement into a budget—without connecting your bank.</h2>
             </div>
             <a href="#upload" className={buttonVariants({ size: "lg" })}>
               Try your first file <ArrowRight data-icon="inline-end" />
@@ -429,7 +403,6 @@ function BudgetingLandingPage() {
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-10 md:grid-cols-[1fr_auto] md:items-end md:px-8">
           <div>
             <a href="/budgeting" className="type-label">Bank CSV</a>
-            <p className="mt-3 max-w-sm type-caption text-muted-foreground">A private, legible budget from the files your bank already gives you.</p>
           </div>
           <nav className="flex flex-wrap gap-x-5 gap-y-2 type-caption text-muted-foreground" aria-label="Footer navigation">
             <a href="#product" className="hover:text-foreground">Product</a>
