@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ArrowRight, FileSpreadsheet, LockKeyhole, RotateCcw } from "lucide-react"
+import { ArrowRight, FileSpreadsheet, LockKeyhole, Moon, RotateCcw, Sun } from "lucide-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
 
@@ -25,6 +25,7 @@ const categoryDetails = {
 } as const
 
 function BudgetingLandingPage() {
+  const [dark, setDark] = useState(false)
   const [organized, setOrganized] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<keyof typeof categoryDetails>("Dining")
 
@@ -47,8 +48,8 @@ function BudgetingLandingPage() {
   }
 
   return (
-    <div className="special-ui-theme min-h-screen bg-background text-foreground">
-      <header className="border-b border-border">
+    <div className={`${dark ? "dark" : ""} special-ui-theme min-h-screen bg-background text-foreground`}>
+      <header className="border-b border-border bg-background">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
           <a href="/budgeting" className="flex items-center gap-2.5 type-label">
             <span className="grid size-5 grid-cols-2 gap-px rounded-sm bg-foreground p-1" aria-hidden="true">
@@ -65,6 +66,14 @@ function BudgetingLandingPage() {
           </nav>
           <div className="flex items-center gap-1.5">
             <a href="#" className="hidden rounded-full px-3 py-2 type-label hover:bg-secondary sm:block">Sign in</a>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => setDark((value) => !value)}
+              aria-label={dark ? "Use light theme" : "Use dark theme"}
+            >
+              {dark ? <Sun /> : <Moon />}
+            </Button>
             <a href="#upload" className={buttonVariants({ size: "sm" })}>Try it free</a>
           </div>
         </div>
