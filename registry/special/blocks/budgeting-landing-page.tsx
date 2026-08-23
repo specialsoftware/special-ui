@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ArrowRight, Check, FileSpreadsheet, LockKeyhole, RotateCcw } from "lucide-react"
+import { ArrowRight, FileSpreadsheet, LockKeyhole, RotateCcw } from "lucide-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
 
@@ -73,8 +73,9 @@ function BudgetingLandingPage() {
       <main>
         <section className="mx-auto grid max-w-7xl items-center gap-14 px-5 pb-16 pt-16 md:px-8 md:pb-24 md:pt-24 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
           <div>
-            <h1 className="max-w-[10ch] text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.96] tracking-[-0.065em]">
-              Turn any bank CSV into a clear monthly budget.
+            <h1 className="max-w-[12ch] text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]">
+              <span className="block">Turn any bank CSV</span>
+              <span className="block text-muted-foreground">into a clear monthly budget.</span>
             </h1>
             <div className="mt-8 flex flex-wrap gap-2">
               <a href="#upload" className={buttonVariants({ size: "lg" })}>
@@ -84,15 +85,11 @@ function BudgetingLandingPage() {
                 See how it works
               </a>
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 type-caption text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5"><Check className="size-3.5" />Free to start</span>
-              <span className="inline-flex items-center gap-1.5"><LockKeyhole className="size-3.5" />No bank login</span>
-              <span className="inline-flex items-center gap-1.5"><Check className="size-3.5" />Any bank CSV</span>
-            </div>
           </div>
 
           <div id="upload" className="scroll-mt-24">
-            <div className="overflow-hidden rounded-lg border border-border bg-card shadow-floating">
+            <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_9.5rem] xl:items-end">
+              <div className="overflow-hidden rounded-lg border border-border bg-card shadow-floating">
               <div className="flex items-center justify-between border-b border-border px-4 py-3">
                 <div className="flex items-center gap-2.5">
                   <span className="grid size-8 place-items-center rounded-md border border-border bg-secondary">
@@ -159,6 +156,14 @@ function BudgetingLandingPage() {
                   {organized ? "Show raw file" : "Show result"}
                 </button>
               </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3 xl:block">
+                {["Under 2 minutes", "Every bank CSV", "No account connection"].map((benefit) => (
+                  <span key={benefit} className="border-t border-foreground py-3 type-caption xl:block xl:py-4">
+                    {benefit}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -173,7 +178,10 @@ function BudgetingLandingPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
             <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
               <div>
-                <h2 className="max-w-[15ch] type-display">Go from bank export to useful budget in under two minutes.</h2>
+                <h2 className="max-w-[15ch] type-display">
+                  <span className="block">From export to budget.</span>
+                  <span className="block text-muted-foreground">In under two minutes.</span>
+                </h2>
               </div>
               <ol className="grid border-t border-border sm:grid-cols-3 sm:border-l">
                 {[
@@ -275,7 +283,10 @@ function BudgetingLandingPage() {
 
         <section className="border-b border-border bg-secondary/35">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-            <h2 className="max-w-[19ch] type-display">Categorize faster, combine every account, and catch what changed.</h2>
+            <h2 className="max-w-[19ch] type-display">
+              <span className="block">Categorize, combine, and understand.</span>
+              <span className="block text-muted-foreground">Without the spreadsheet work.</span>
+            </h2>
 
             <div className="mt-12 grid gap-4 lg:grid-cols-3">
               <article className="rounded-lg border border-border bg-card p-5 lg:col-span-2 md:p-7">
@@ -345,7 +356,10 @@ function BudgetingLandingPage() {
           <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
             <div>
               <LockKeyhole className="size-6" />
-              <h2 className="mt-8 max-w-[12ch] type-display">No bank login. No stored statements.</h2>
+              <h2 className="mt-8 max-w-[12ch] type-display">
+                <span className="block">No bank login.</span>
+                <span className="block text-background/55">No stored statements.</span>
+              </h2>
             </div>
             <div className="grid sm:grid-cols-2">
               {[
@@ -365,7 +379,10 @@ function BudgetingLandingPage() {
         <section id="questions" className="scroll-mt-20 border-b border-border">
           <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
             <div>
-              <h2 className="max-w-[14ch] type-display">Everything to know before uploading a statement.</h2>
+              <h2 className="max-w-[14ch] type-display">
+                <span className="block">Everything to know</span>
+                <span className="block text-muted-foreground">before uploading a statement.</span>
+              </h2>
             </div>
             <div className="border-t border-border">
               {[
@@ -390,7 +407,10 @@ function BudgetingLandingPage() {
         <section className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
           <div className="grid gap-10 rounded-lg border border-border bg-secondary/45 p-6 md:grid-cols-[1fr_auto] md:items-end md:p-10">
             <div>
-              <h2 className="max-w-[18ch] type-display">Turn your next bank statement into a budget—without connecting your bank.</h2>
+              <h2 className="max-w-[18ch] type-display">
+                <span className="block">Your next statement is already a budget.</span>
+                <span className="block text-muted-foreground">See it without connecting your bank.</span>
+              </h2>
             </div>
             <a href="#upload" className={buttonVariants({ size: "lg" })}>
               Try your first file <ArrowRight data-icon="inline-end" />
