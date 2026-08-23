@@ -12,6 +12,10 @@ export default defineConfig({
         replacement: fileURLToPath(new URL('../registry/special/ui', import.meta.url)),
       },
       {
+        find: '@/blocks',
+        replacement: fileURLToPath(new URL('../registry/special/blocks', import.meta.url)),
+      },
+      {
         find: '@/lib/utils',
         replacement: fileURLToPath(new URL('../registry/special/lib/utils.ts', import.meta.url)),
       },

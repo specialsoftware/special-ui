@@ -13,6 +13,7 @@ inside every consuming application.
 - Inter across the complete type system, with a compact 11–32px scale
 - Semantic color, typography, spacing, radius, elevation, focus, and motion tokens
 - Polished Button, Input/Field, and Card components
+- A reusable editorial blog page block, previewed at `/blog`
 - A realistic calibration playground rather than isolated component examples
 - A GitHub-compatible shadcn registry
 
@@ -56,6 +57,7 @@ pnpm dlx shadcn@latest add specialsoftware/special-ui/button
 pnpm dlx shadcn@latest add specialsoftware/special-ui/input
 pnpm dlx shadcn@latest add specialsoftware/special-ui/field
 pnpm dlx shadcn@latest add specialsoftware/special-ui/card
+pnpm dlx shadcn@latest add specialsoftware/special-ui/blog-page
 ```
 
 Install the visual foundations separately:

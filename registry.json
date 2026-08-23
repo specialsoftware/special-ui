@@ -81,6 +81,20 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "blog-page",
+      "type": "registry:block",
+      "title": "Blog Page",
+      "description": "A monochrome editorial journal with an introduction, grouped writing index, dark mode, and responsive layout.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/blog-page.tsx",
+          "type": "registry:block"
+        }
+      ]
     }
   ]
 }

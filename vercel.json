@@ -3,5 +3,6 @@
   "framework": "vite",
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter playground build",
-  "outputDirectory": "playground/dist"
+  "outputDirectory": "playground/dist",
+  "rewrites": [{ "source": "/blog", "destination": "/index.html" }]
 }

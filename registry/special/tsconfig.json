@@ -5,9 +5,10 @@
     "baseUrl": "../..",
     "paths": {
       "@/components/ui/*": ["registry/special/ui/*"],
+      "@/blocks/*": ["registry/special/blocks/*"],
       "@/lib/utils": ["registry/special/lib/utils.ts"]
     }
   },
-  "include": ["lib/**/*.ts", "ui/**/*.ts", "ui/**/*.tsx"],
+  "include": ["blocks/**/*.tsx", "lib/**/*.ts", "ui/**/*.ts", "ui/**/*.tsx"],
   "exclude": ["ui/**/*.test.ts", "ui/**/*.test.tsx"]
 }

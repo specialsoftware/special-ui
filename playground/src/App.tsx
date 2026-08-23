@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { ArrowRight, CreditCard, Moon, MoreHorizontal, Settings2, Sun } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardAction,
@@ -87,7 +87,9 @@ export function App() {
                 <Button>
                   Explore components <ArrowRight data-icon="inline-end" />
                 </Button>
-                <Button variant="outline">View principles</Button>
+                <a href="/blog" className={buttonVariants({ variant: "outline" })}>
+                  View blog template
+                </a>
               </div>
             </div>
             <dl className="grid content-start gap-3 border-t border-border pt-3 type-caption md:border-t-0 md:pt-0">
