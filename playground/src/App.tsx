@@ -88,7 +88,10 @@ export function App() {
                   Explore components <ArrowRight data-icon="inline-end" />
                 </Button>
                 <a href="/blog" className={buttonVariants({ variant: "outline" })}>
-                  View blog template
+                  Read article template
+                </a>
+                <a href="/personal-website" className={buttonVariants({ variant: "ghost" })}>
+                  Personal website
                 </a>
               </div>
             </div>

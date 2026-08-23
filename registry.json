@@ -86,12 +86,26 @@
       "name": "blog-page",
       "type": "registry:block",
       "title": "Blog Page",
-      "description": "A monochrome editorial journal with an introduction, grouped writing index, dark mode, and responsive layout.",
+      "description": "A long-form editorial article with a focused reading measure, styled media, code, captions, and dark mode.",
       "dependencies": ["lucide-react"],
       "registryDependencies": ["button"],
       "files": [
         {
           "path": "registry/special/blocks/blog-page.tsx",
+          "type": "registry:block"
+        }
+      ]
+    },
+    {
+      "name": "personal-website",
+      "type": "registry:block",
+      "title": "Personal Website",
+      "description": "A monochrome personal website with an introduction, grouped writing index, dark mode, and responsive layout.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/personal-website.tsx",
           "type": "registry:block"
         }
       ]

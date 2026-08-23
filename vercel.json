@@ -4,5 +4,8 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter playground build",
   "outputDirectory": "playground/dist",
-  "rewrites": [{ "source": "/blog", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/personal-website", "destination": "/index.html" }
+  ]
 }
