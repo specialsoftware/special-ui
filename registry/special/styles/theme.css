@@ -9,11 +9,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --text-eyebrow: 0.6875rem;
-  --text-eyebrow--line-height: 1rem;
-  --text-eyebrow--letter-spacing: 0.08em;
-  --text-eyebrow--font-weight: 500;
-
   --text-caption: 0.75rem;
   --text-caption--line-height: 1rem;
 
@@ -52,13 +47,6 @@
  * `type-*` avoids the ambiguity between Tailwind's text-size and text-color
  * utility groups when classes are composed with tailwind-merge.
  */
-@utility type-eyebrow {
-  font-size: var(--text-eyebrow);
-  line-height: var(--text-eyebrow--line-height);
-  letter-spacing: var(--text-eyebrow--letter-spacing);
-  font-weight: var(--text-eyebrow--font-weight);
-}
-
 @utility type-caption {
   font-size: var(--text-caption);
   line-height: var(--text-caption--line-height);

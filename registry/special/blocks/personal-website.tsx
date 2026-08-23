@@ -80,8 +80,7 @@ function PersonalWebsitePage() {
           <article id="about" className="scroll-mt-20">
             <div className="grid gap-8 md:grid-cols-[7rem_1fr]">
               <div>
-                <p className="type-eyebrow uppercase text-subtle-foreground">Field Notes</p>
-                <p className="mt-2 type-caption text-muted-foreground">Updated Aug 2026</p>
+                <p className="type-caption text-muted-foreground">Updated Aug 2026</p>
               </div>
 
               <div className="max-w-xl">
@@ -119,8 +118,7 @@ function PersonalWebsitePage() {
           </article>
 
           <section id="writing" className="mt-20 scroll-mt-20 md:mt-24">
-            <div className="grid gap-3 border-b border-border pb-3 md:grid-cols-[7rem_1fr]">
-              <p className="type-eyebrow uppercase text-subtle-foreground">Index</p>
+            <div className="border-b border-border pb-3 md:ml-[7rem]">
               <div className="flex items-baseline justify-between gap-6">
                 <h2 className="type-heading">Writing</h2>
                 <p className="type-caption text-subtle-foreground">07 notes</p>
@@ -143,7 +141,7 @@ function PersonalWebsitePage() {
                           <span className="flex min-w-0 items-center gap-2 type-body text-foreground">
                             <span>{post.title}</span>
                             {post.isNew && (
-                              <span className="rounded-full border border-border-strong px-1.5 py-0.5 type-eyebrow uppercase text-muted-foreground">
+                              <span className="rounded-full border border-border-strong px-1.5 py-0.5 type-caption text-muted-foreground">
                                 New
                               </span>
                             )}
@@ -163,8 +161,7 @@ function PersonalWebsitePage() {
             </div>
           </section>
 
-          <footer className="mt-20 grid gap-6 border-t border-border pt-5 md:grid-cols-[7rem_1fr]">
-            <p className="type-eyebrow uppercase text-subtle-foreground">Elsewhere</p>
+          <footer className="mt-20 border-t border-border pt-5 md:ml-[7rem]">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <p className="max-w-sm type-caption text-muted-foreground">
                 Occasional notes on making thoughtful software. No feeds to game, no schedule to

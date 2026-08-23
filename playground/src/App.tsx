@@ -39,7 +39,7 @@ function SectionHeading({
 }) {
   return (
     <div className="grid gap-3 md:grid-cols-[7rem_1fr] md:gap-8">
-      <p className="pt-0.5 type-eyebrow uppercase text-subtle-foreground">{index}</p>
+      <p className="pt-0.5 type-caption text-subtle-foreground">{index}</p>
       <div className="max-w-xl">
         <h2 className="font-display type-heading text-foreground">{title}</h2>
         <p className="mt-2 type-body text-muted-foreground">{description}</p>
@@ -56,7 +56,7 @@ export function App() {
       <div className="min-h-screen bg-background text-foreground">
         <header className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur-md">
           <div className="mx-auto grid h-14 max-w-7xl grid-cols-[1fr_auto] items-center px-5 md:grid-cols-[7rem_1fr_auto] md:px-8">
-            <span className="hidden type-eyebrow text-subtle-foreground md:block">S / UI</span>
+            <span className="hidden type-caption text-subtle-foreground md:block">S / UI</span>
             <div className="flex items-center gap-2.5">
               <span className="size-2 bg-foreground" aria-hidden="true" />
               <p className="type-label">Special UI</p>
@@ -73,8 +73,7 @@ export function App() {
         </header>
 
         <main className="mx-auto max-w-7xl px-5 pb-24 md:px-8">
-          <section className="grid gap-10 py-14 md:grid-cols-[7rem_1fr_15rem] md:gap-8 md:py-20">
-            <p className="type-eyebrow uppercase text-subtle-foreground">Edition 01</p>
+          <section className="grid gap-10 py-14 md:grid-cols-[1fr_15rem] md:gap-8 md:py-20 md:pl-[9rem]">
             <div className="max-w-2xl">
               <h1 className="max-w-[20ch] font-display type-display text-foreground">
                 A precise interface system for product work.

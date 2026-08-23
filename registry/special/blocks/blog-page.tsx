@@ -45,8 +45,7 @@ function BlogPage() {
         <main className="mx-auto max-w-5xl px-5 pb-24 pt-14 md:px-8 md:pt-20">
           <article>
             <header className="mx-auto max-w-[38.625rem]">
-              <p className="type-eyebrow uppercase text-subtle-foreground">Essay 04</p>
-              <h1 className="mt-4 max-w-[21ch] font-display type-display text-foreground">
+              <h1 className="max-w-[21ch] font-display type-display text-foreground">
                 Making software feel inevitable
               </h1>
               <p className="mt-5 max-w-[58ch] type-prose text-foreground">
@@ -182,9 +181,8 @@ function BlogPage() {
           <footer className="mx-auto mt-20 max-w-[38.625rem] border-t border-border pt-5">
             <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
               <div>
-                <p className="type-eyebrow uppercase text-subtle-foreground">Next essay</p>
-                <a href="#" className="mt-2 inline-flex items-center gap-1 type-label text-foreground hover:underline hover:underline-offset-4">
-                  A case for fewer choices <ArrowUpRight className="size-3.5" />
+                <a href="#" className="inline-flex items-center gap-1 type-label text-foreground hover:underline hover:underline-offset-4">
+                  Next: A case for fewer choices <ArrowUpRight className="size-3.5" />
                 </a>
               </div>
               <a
