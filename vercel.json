@@ -5,6 +5,7 @@
   "buildCommand": "pnpm --filter playground build",
   "outputDirectory": "playground/dist",
   "rewrites": [
+    { "source": "/budgeting", "destination": "/index.html" },
     { "source": "/blog", "destination": "/index.html" },
     { "source": "/personal-website", "destination": "/index.html" }
   ]

@@ -109,6 +109,20 @@
           "type": "registry:block"
         }
       ]
+    },
+    {
+      "name": "budgeting-landing-page",
+      "type": "registry:block",
+      "title": "Budgeting Landing Page",
+      "description": "A conversion-focused Swiss-editorial landing page for private budgeting software with interactive transaction and budget demos.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/budgeting-landing-page.tsx",
+          "type": "registry:block"
+        }
+      ]
     }
   ]
 }
