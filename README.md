@@ -16,6 +16,7 @@ inside every consuming application.
 - A long-form blog page block with styled media, previewed at `/blog`
 - A personal website and writing index, previewed at `/personal-website`
 - A conversion-focused budgeting software landing page, previewed at `/budgeting`
+- Nine interactive finance marketing and product blocks, previewed at `/finance-blocks`
 - A realistic calibration playground rather than isolated component examples
 - A GitHub-compatible shadcn registry
 
@@ -62,6 +63,7 @@ pnpm dlx shadcn@latest add specialsoftware/special-ui/card
 pnpm dlx shadcn@latest add specialsoftware/special-ui/blog-page
 pnpm dlx shadcn@latest add specialsoftware/special-ui/personal-website
 pnpm dlx shadcn@latest add specialsoftware/special-ui/budgeting-landing-page
+pnpm dlx shadcn@latest add specialsoftware/special-ui/finance-blocks-page
 ```
 
 Install the visual foundations separately:

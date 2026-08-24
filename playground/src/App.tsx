@@ -95,6 +95,9 @@ export function App() {
                 <a href="/budgeting" className={buttonVariants({ variant: "ghost" })}>
                   Budgeting site
                 </a>
+                <a href="/finance-blocks" className={buttonVariants({ variant: "ghost" })}>
+                  Finance blocks
+                </a>
               </div>
             </div>
             <dl className="grid content-start gap-3 border-t border-border pt-3 type-caption md:border-t-0 md:pt-0">

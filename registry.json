@@ -123,6 +123,20 @@
           "type": "registry:block"
         }
       ]
+    },
+    {
+      "name": "finance-blocks-page",
+      "type": "registry:block",
+      "title": "Finance Blocks Page",
+      "description": "An interactive gallery of nine finance marketing and product blocks with ambient motion, product demos, dark mode, and responsive layouts.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/finance-blocks-page.tsx",
+          "type": "registry:block"
+        }
+      ]
     }
   ]
 }
