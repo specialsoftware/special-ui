@@ -104,6 +104,15 @@ export function App() {
                 <a href="/file-upload-studies" className={buttonVariants({ variant: "ghost" })}>
                   File upload studies
                 </a>
+                <a href="/bankcsv-landing" className={buttonVariants({ variant: "ghost" })}>
+                  Bank CSV landing
+                </a>
+                <a href="/social-proof-studies" className={buttonVariants({ variant: "ghost" })}>
+                  Social proof studies
+                </a>
+                <a href="/pricing-studies" className={buttonVariants({ variant: "ghost" })}>
+                  Pricing studies
+                </a>
               </div>
             </div>
             <dl className="grid content-start gap-3 border-t border-border pt-3 type-caption md:border-t-0 md:pt-0">

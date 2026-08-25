@@ -5,6 +5,9 @@
   "buildCommand": "pnpm --filter playground build",
   "outputDirectory": "playground/dist",
   "rewrites": [
+    { "source": "/bankcsv-landing", "destination": "/index.html" },
+    { "source": "/social-proof-studies", "destination": "/index.html" },
+    { "source": "/pricing-studies", "destination": "/index.html" },
     { "source": "/file-upload-studies", "destination": "/index.html" },
     { "source": "/budgeting-explorations", "destination": "/index.html" },
     { "source": "/finance-blocks", "destination": "/index.html" },

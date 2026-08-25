@@ -179,6 +179,48 @@
           "type": "registry:block"
         }
       ]
+    },
+    {
+      "name": "bankcsv-landing-page",
+      "type": "registry:block",
+      "title": "Bank CSV Landing Page",
+      "description": "A concise conversion-focused landing page for a private CSV budgeting product with a real Uppy upload surface, product demonstrations, sourced early feedback, pricing, privacy, and dark mode.",
+      "dependencies": ["@uppy/core", "@uppy/react", "lucide-react"],
+      "registryDependencies": ["button", "file-upload"],
+      "files": [
+        {
+          "path": "registry/special/blocks/bankcsv-landing-page.tsx",
+          "type": "registry:block"
+        }
+      ]
+    },
+    {
+      "name": "social-proof-studies-page",
+      "type": "registry:block",
+      "title": "Social Proof Studies Page",
+      "description": "Five restrained, data-integrity-aware social proof patterns for product metrics, customer outcomes, review ledgers, aggregate results, and customer profiles.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/social-proof-studies-page.tsx",
+          "type": "registry:block"
+        }
+      ]
+    },
+    {
+      "name": "pricing-studies-page",
+      "type": "registry:block",
+      "title": "Pricing Studies Page",
+      "description": "Five monochrome pricing explorations covering current tiers, free-to-paid continuity, billing periods, usage pricing, and transparent trials.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/pricing-studies-page.tsx",
+          "type": "registry:block"
+        }
+      ]
     }
   ]
 }

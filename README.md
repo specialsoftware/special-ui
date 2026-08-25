@@ -19,6 +19,9 @@ inside every consuming application.
 - Nine interactive finance marketing and product blocks, previewed at `/finance-blocks`
 - Eleven compact budgeting section explorations, previewed at `/budgeting-explorations`
 - Five Uppy-backed upload and queue studies, previewed at `/file-upload-studies`
+- An alternative Bank CSV Categorizer landing page, previewed at `/bankcsv-landing`
+- Five social proof systems, previewed at `/social-proof-studies`
+- Five pricing systems, previewed at `/pricing-studies`
 - A realistic calibration playground rather than isolated component examples
 - A GitHub-compatible shadcn registry
 
@@ -50,6 +53,7 @@ registry/special/
   ui/                     source-installed components
 playground/               Vite component lab and documentation site
 docs/V2_PLAN.md           component roadmap and quality bar
+docs/BANKCSV_PRODUCT_STRATEGY.md  product, GTM, and roadmap brief
 ```
 
 ## Install components
@@ -69,6 +73,9 @@ pnpm dlx shadcn@latest add specialsoftware/special-ui/budgeting-landing-page
 pnpm dlx shadcn@latest add specialsoftware/special-ui/finance-blocks-page
 pnpm dlx shadcn@latest add specialsoftware/special-ui/budgeting-explorations-page
 pnpm dlx shadcn@latest add specialsoftware/special-ui/file-upload-studies-page
+pnpm dlx shadcn@latest add specialsoftware/special-ui/bankcsv-landing-page
+pnpm dlx shadcn@latest add specialsoftware/special-ui/social-proof-studies-page
+pnpm dlx shadcn@latest add specialsoftware/special-ui/pricing-studies-page
 ```
 
 Install the visual foundations separately:
