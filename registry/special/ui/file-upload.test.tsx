@@ -25,6 +25,8 @@ describe("UppyFileUpload", () => {
 
     expect(screen.getByRole("button", { name: /drop bank statements/i })).toBeInTheDocument()
     expect(document.querySelector('input[type="file"]')).toHaveAttribute("multiple")
+    expect(screen.queryByText(/files appear here/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: /upload files/i })).not.toBeInTheDocument()
 
     uppy.destroy()
   })

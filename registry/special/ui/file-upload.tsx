@@ -74,14 +74,6 @@ function ProgressLine({ value, error = false }: { value: number; error?: boolean
   )
 }
 
-function EmptyQueue({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className={cn("grid min-h-28 place-items-center text-center type-caption text-muted-foreground", compact && "min-h-16")}>
-      Files appear here as soon as they are accepted.
-    </div>
-  )
-}
-
 function DropCopy({ title, note, compact = false }: { title: string; note: string; compact?: boolean }) {
   if (compact) {
     return (
@@ -105,7 +97,7 @@ function DropCopy({ title, note, compact = false }: { title: string; note: strin
 export function UppyFileUpload({
   variant = "field",
   title = "Drop bank statements",
-  note = "CSV files · up to 10 files · 20 MB each",
+  note = "CSV · 10 max · 20 MB each",
   className,
 }: UppyFileUploadProps) {
   const { uppy } = useUppyContext()
@@ -157,7 +149,7 @@ export function UppyFileUpload({
       role="button"
       tabIndex={0}
       aria-describedby={noteId}
-      aria-controls={queueId}
+      aria-controls={files.length > 0 ? queueId : undefined}
       onKeyDown={handleKeyDown}
       className={cn(
         "cursor-pointer outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -171,9 +163,9 @@ export function UppyFileUpload({
     </div>
   )
 
-  const rowQueue = (dense = false) => (
+  const rowQueue = (dense = false) => files.length > 0 ? (
     <div id={queueId} className="divide-y divide-border" aria-live="polite">
-      {files.length === 0 ? <EmptyQueue compact={dense} /> : files.map((file) => {
+      {files.map((file) => {
         const status = getFileStatus(file)
         const percentage = file.progress.percentage ?? 0
         return (
@@ -207,11 +199,11 @@ export function UppyFileUpload({
         )
       })}
     </div>
-  )
+  ) : null
 
-  const cardQueue = () => (
+  const cardQueue = () => files.length > 0 ? (
     <div id={queueId} className="grid gap-2" aria-live="polite">
-      {files.length === 0 ? <EmptyQueue /> : files.map((file) => {
+      {files.map((file) => {
         const status = getFileStatus(file)
         const percentage = file.progress.percentage ?? 0
         return (
@@ -236,11 +228,11 @@ export function UppyFileUpload({
         )
       })}
     </div>
-  )
+  ) : null
 
-  const chipQueue = () => (
+  const chipQueue = () => files.length > 0 ? (
     <div id={queueId} className="mt-3 flex flex-wrap gap-2" aria-live="polite">
-      {files.length === 0 ? <p className="type-caption text-muted-foreground">No files selected.</p> : files.map((file) => {
+      {files.map((file) => {
         const status = getFileStatus(file)
         const percentage = file.progress.percentage ?? 0
         return (
@@ -254,19 +246,25 @@ export function UppyFileUpload({
         )
       })}
     </div>
-  )
+  ) : null
 
-  const actionBar = (inverted = false) => (
+  const actionBar = (inverted = false) => files.length > 0 ? (
     <div className={cn("flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3", inverted && "border-background/15")}>
       <p className={cn("type-caption text-muted-foreground", inverted && "text-background/55")}>
-        {files.length === 0 ? "Waiting for files" : `${completedCount}/${files.length} complete${errorCount ? ` · ${errorCount} failed` : ""}`}
+        {activeCount
+          ? `${totalProgress}%`
+          : errorCount
+            ? `${completedCount} complete · ${errorCount} failed`
+            : completedCount === files.length
+              ? `${files.length} complete`
+              : `${files.length} files`}
       </p>
       <Button variant={inverted ? "secondary" : "default"} size="sm" onClick={startUpload} disabled={!canUpload}>
         {activeCount ? "Uploading" : "Upload files"}
         {activeCount ? <LoaderCircle className="animate-spin motion-reduce:animate-none" data-icon="inline-end" /> : <Upload data-icon="inline-end" />}
       </Button>
     </div>
-  )
+  ) : null
 
   const info = latestInfo ? (
     <p className="mt-3 type-caption text-destructive" role="status">{latestInfo.message}</p>
@@ -286,9 +284,11 @@ export function UppyFileUpload({
           </div>,
           "border-b border-dashed border-border px-4 py-5",
         )}
-        <div className="hidden grid-cols-[1fr_7rem_5rem] border-b border-border px-4 py-2 type-caption text-muted-foreground sm:grid">
-          <span>File</span><span>Size</span><span className="text-right">Action</span>
-        </div>
+        {files.length > 0 && (
+          <div className="hidden grid-cols-[1fr_7rem_5rem] border-b border-border px-4 py-2 type-caption text-muted-foreground sm:grid">
+            <span>File</span><span>Size</span><span className="text-right">Action</span>
+          </div>
+        )}
         {rowQueue(true)}
         {actionBar()}
         <p id={noteId} className="sr-only">{note}</p>
@@ -305,8 +305,8 @@ export function UppyFileUpload({
             <div className="grid h-full place-items-center p-8 text-center">
               <div>
                 <Upload className="mx-auto size-5" />
-                <p className="mt-6 type-title">{dragActive ? "Release your files" : "Bring every statement"}</p>
-                <p className="mx-auto mt-2 max-w-48 type-caption text-background/55">Drag several CSV files at once, or click anywhere to browse.</p>
+                <p className="mt-6 type-title">{dragActive ? "Release to add" : "Drop CSV files"}</p>
+                <p className="mt-2 type-caption text-background/55">{note}</p>
               </div>
             </div>,
             "min-h-64 flex-1 border-b border-background/15 data-[drag-active]:bg-background/10",
@@ -363,14 +363,16 @@ export function UppyFileUpload({
           </div>,
           "rounded-lg data-[drag-active]:bg-secondary",
         )}
-        <div className="mt-4 rounded-lg border border-border bg-background">
-          <div className="flex items-center justify-between border-b border-border px-4 py-3">
-            <p className="type-label">Batch progress</p>
-            <p className="type-caption text-muted-foreground">{totalProgress}%</p>
+        {files.length > 0 && (
+          <div className="mt-4 rounded-lg border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <p className="type-label">Progress</p>
+              <p className="type-caption text-muted-foreground">{totalProgress}%</p>
+            </div>
+            {rowQueue(true)}
+            {actionBar()}
           </div>
-          {rowQueue(true)}
-          {actionBar()}
-        </div>
+        )}
         <p id={noteId} className="sr-only">{note}</p>
         {info}
       </div>

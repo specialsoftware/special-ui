@@ -122,12 +122,10 @@ function createDemoUppy(id: string, failOnce: boolean) {
 function Study({
   number,
   title,
-  principle,
   children,
 }: {
   number: string
   title: string
-  principle: string
   children: ReactNode
 }) {
   return (
@@ -135,10 +133,7 @@ function Study({
       <div className="grid gap-8 lg:grid-cols-[9rem_1fr] lg:gap-10">
         <p className="type-caption text-muted-foreground">{number}</p>
         <div>
-          <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
-            <h2 className="type-title">{title}</h2>
-            <p className="max-w-md type-caption text-muted-foreground md:text-right">{principle}</p>
-          </div>
+          <h2 className="type-title">{title}</h2>
           <div className="mt-8">{children}</div>
         </div>
       </div>
@@ -236,7 +231,6 @@ export function FileUploadStudiesPage() {
         <Study
           number="01 / Field"
           title="Quiet empty state"
-          principle="A generous target for infrequent imports. The queue appears only after the user commits files."
         >
           <UploadStudy id="special-field-demo" variant="field" />
         </Study>
@@ -244,7 +238,6 @@ export function FileUploadStudiesPage() {
         <Study
           number="02 / Ledger"
           title="Dense batch importer"
-          principle="Files behave like rows in a financial table: name, size, state, and action stay aligned."
         >
           <UploadStudy id="special-ledger-demo" variant="ledger" initialFiles />
         </Study>
@@ -252,7 +245,6 @@ export function FileUploadStudiesPage() {
         <Study
           number="03 / Split"
           title="Drop target and queue"
-          principle="The input and its consequences are given equal space. Useful when importing is the page’s main job."
         >
           <UploadStudy id="special-split-demo" variant="split" initialFiles autoStart />
         </Study>
@@ -260,7 +252,6 @@ export function FileUploadStudiesPage() {
         <Study
           number="04 / Compact"
           title="Inline attachment rail"
-          principle="A light-touch control for forms and existing workflows, with errors recoverable at file level."
         >
           <UploadStudy id="special-compact-demo" variant="compact" initialFiles autoStart failOnce />
         </Study>
@@ -268,7 +259,6 @@ export function FileUploadStudiesPage() {
         <Study
           number="05 / Stack"
           title="Focused import workspace"
-          principle="A contained batch surface with an explicit overall summary and a calm spatial hierarchy."
         >
           <UploadStudy id="special-stack-demo" variant="stack" initialFiles autoStart />
         </Study>
