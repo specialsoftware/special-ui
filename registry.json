@@ -137,6 +137,20 @@
           "type": "registry:block"
         }
       ]
+    },
+    {
+      "name": "budgeting-explorations-page",
+      "type": "registry:block",
+      "title": "Budgeting Explorations Page",
+      "description": "Eleven compact budgeting marketing explorations inspired by editorial grids, focused product storytelling, and restrained finance interfaces.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/special/blocks/budgeting-explorations-page.tsx",
+          "type": "registry:block"
+        }
+      ]
     }
   ]
 }
