@@ -101,6 +101,9 @@ export function App() {
                 <a href="/budgeting-explorations" className={buttonVariants({ variant: "ghost" })}>
                   Budgeting explorations
                 </a>
+                <a href="/file-upload-studies" className={buttonVariants({ variant: "ghost" })}>
+                  File upload studies
+                </a>
               </div>
             </div>
             <dl className="grid content-start gap-3 border-t border-border pt-3 type-caption md:border-t-0 md:pt-0">

@@ -5,6 +5,7 @@
   "buildCommand": "pnpm --filter playground build",
   "outputDirectory": "playground/dist",
   "rewrites": [
+    { "source": "/file-upload-studies", "destination": "/index.html" },
     { "source": "/budgeting-explorations", "destination": "/index.html" },
     { "source": "/finance-blocks", "destination": "/index.html" },
     { "source": "/budgeting", "destination": "/index.html" },

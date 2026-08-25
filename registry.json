@@ -83,6 +83,20 @@
       ]
     },
     {
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "File Upload",
+      "description": "A headless Uppy file uploader with five monochrome dropzone and multi-file queue variants, per-file progress, retry, removal, and error states.",
+      "dependencies": ["@uppy/core", "@uppy/react", "lucide-react"],
+      "registryDependencies": ["button", "utils"],
+      "files": [
+        {
+          "path": "registry/special/ui/file-upload.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "blog-page",
       "type": "registry:block",
       "title": "Blog Page",
@@ -148,6 +162,20 @@
       "files": [
         {
           "path": "registry/special/blocks/budgeting-explorations-page.tsx",
+          "type": "registry:block"
+        }
+      ]
+    },
+    {
+      "name": "file-upload-studies-page",
+      "type": "registry:block",
+      "title": "File Upload Studies Page",
+      "description": "Five interactive Uppy-backed upload studies with matching file queues, simulated backend processing, progress, partial failure, and recovery.",
+      "dependencies": ["@uppy/core", "@uppy/react", "lucide-react"],
+      "registryDependencies": ["button", "file-upload"],
+      "files": [
+        {
+          "path": "registry/special/blocks/file-upload-studies-page.tsx",
           "type": "registry:block"
         }
       ]
