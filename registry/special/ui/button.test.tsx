@@ -10,6 +10,9 @@ describe("Button", () => {
       "data-slot",
       "button"
     )
+    expect(screen.getByRole("button", { name: "Save changes" })).toHaveClass(
+      "cursor-pointer"
+    )
   })
 
   it("keeps its accessible name while loading", () => {
