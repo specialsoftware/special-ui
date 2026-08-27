@@ -4,7 +4,7 @@ import '@fontsource-variable/inter';
 import { App } from './App';
 import { BankCsvLandingPage } from '@/blocks/bankcsv-landing-page';
 import { BlogPage } from '@/blocks/blog-page';
-import { BudgetingLandingPage } from '@/blocks/budgeting-landing-page';
+import { BudgetingLandingPage, NarrowBudgetingLandingPage } from '@/blocks/budgeting-landing-page';
 import { BudgetingExplorationsPage } from '@/blocks/budgeting-explorations-page';
 import { FileUploadStudiesPage } from '@/blocks/file-upload-studies-page';
 import { FinanceBlocksPage } from '@/blocks/finance-blocks-page';
@@ -21,6 +21,8 @@ const Page = window.location.pathname.startsWith('/bankcsv-landing')
   ? PricingStudiesPage
   : window.location.pathname.startsWith('/file-upload-studies')
   ? FileUploadStudiesPage
+  : window.location.pathname.startsWith('/budgeting-narrow')
+  ? NarrowBudgetingLandingPage
   : window.location.pathname.startsWith('/budgeting-explorations')
   ? BudgetingExplorationsPage
   : window.location.pathname.startsWith('/finance-blocks')

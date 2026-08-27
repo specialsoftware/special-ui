@@ -1,7 +1,89 @@
 import { useEffect, useState } from "react"
+import Uppy from "@uppy/core"
+import { UppyContextProvider } from "@uppy/react"
 import { ArrowRight, FileSpreadsheet, LockKeyhole, Moon, RotateCcw, Sun } from "lucide-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
+import { UppyFileUpload } from "@/components/ui/file-upload"
+
+function wait(milliseconds: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, milliseconds))
+}
+
+function createHeroUppy() {
+  const uppy = new Uppy({
+    id: "budgeting-narrow-hero",
+    autoProceed: false,
+    allowMultipleUploadBatches: true,
+    restrictions: {
+      allowedFileTypes: [".csv", "text/csv", "application/vnd.ms-excel"],
+      maxFileSize: 20 * 1024 * 1024,
+      maxNumberOfFiles: 10,
+      minNumberOfFiles: 1,
+    },
+  })
+
+  uppy.addUploader(async (fileIds) => {
+    await Promise.all(fileIds.map(async (fileId) => {
+      const file = uppy.getFile(fileId)
+      if (!file) return
+
+      const total = file.size ?? 100_000
+      const started = Date.now()
+
+      for (const percentage of [18, 46, 74, 100]) {
+        await wait(150)
+        const currentFile = uppy.getFile(fileId)
+        if (!currentFile) return
+
+        const progress = {
+          ...currentFile.progress,
+          uploadStarted: started,
+          bytesUploaded: Math.round(total * percentage / 100),
+          bytesTotal: total,
+          percentage,
+        }
+        uppy.setFileState(fileId, { progress })
+        uppy.emit("upload-progress", uppy.getFile(fileId), progress)
+      }
+
+      const uploadedFile = uppy.getFile(fileId)
+      if (!uploadedFile) return
+      const response = { status: 200, body: {}, bytesUploaded: total }
+      uppy.setFileState(fileId, {
+        error: null,
+        response,
+        progress: {
+          ...uploadedFile.progress,
+          uploadStarted: started,
+          percentage: 100,
+          bytesUploaded: total,
+          bytesTotal: total,
+          uploadComplete: true,
+          complete: true,
+        },
+      })
+      uppy.emit("upload-success", uppy.getFile(fileId), response)
+    }))
+  })
+
+  return uppy
+}
+
+function NarrowHeroUpload() {
+  const [uppy] = useState(createHeroUppy)
+
+  return (
+    <UppyContextProvider uppy={uppy}>
+      <UppyFileUpload
+        variant="field"
+        title="Drop bank statements"
+        note="CSV · Up to 10 files · 20 MB each"
+        className="border-b-0 [&_[role=button]]:border-b-0"
+      />
+    </UppyContextProvider>
+  )
+}
 
 const transactions = [
   { merchant: "Whole Foods Market", amount: "−$84.20", category: "Groceries" },
@@ -24,13 +106,15 @@ const categoryDetails = {
   Transport: ["Metropolitan Transit", "Citi Bike", "Uber"],
 } as const
 
-function BudgetingLandingPage() {
+function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
   const [dark, setDark] = useState(false)
   const [organized, setOrganized] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<keyof typeof categoryDetails>("Dining")
 
   useEffect(() => {
-    document.title = "Bank CSV — A clear budget from any bank statement"
+    document.title = narrow
+      ? "Bank CSV — Focused layout"
+      : "Bank CSV — A clear budget from any bank statement"
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     description?.setAttribute(
       "content",
@@ -40,7 +124,10 @@ function BudgetingLandingPage() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const timer = window.setTimeout(() => setOrganized(true), reducedMotion ? 0 : 900)
     return () => window.clearTimeout(timer)
-  }, [])
+  }, [narrow])
+
+  const contentWidth = narrow ? "max-w-4xl" : "max-w-7xl"
+  const pageHref = narrow ? "/budgeting-narrow" : "/budgeting"
 
   function replayDemo() {
     setOrganized(false)
@@ -50,8 +137,8 @@ function BudgetingLandingPage() {
   return (
     <div className={`${dark ? "dark" : ""} special-ui-theme min-h-screen bg-background text-foreground`}>
       <header className="border-b border-border bg-background">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
-          <a href="/budgeting" className="flex items-center gap-2.5 type-label">
+        <div className={`mx-auto flex h-16 ${contentWidth} items-center justify-between px-5 md:px-8`}>
+          <a href={pageHref} className="flex items-center gap-2.5 type-label">
             <span className="grid size-5 grid-cols-2 gap-px rounded-sm bg-foreground p-1" aria-hidden="true">
               <span className="bg-background" />
               <span className="bg-background" />
@@ -80,13 +167,13 @@ function BudgetingLandingPage() {
       </header>
 
       <main>
-        <section className="mx-auto grid max-w-7xl items-center gap-14 px-5 pb-16 pt-16 md:px-8 md:pb-24 md:pt-24 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-          <div>
-            <h1 className="max-w-[12ch] text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]">
+        <section className={`mx-auto grid ${contentWidth} items-center gap-14 px-5 pb-16 pt-16 md:px-8 md:pb-24 md:pt-24 ${narrow ? "justify-items-center text-center" : "lg:grid-cols-[0.82fr_1.18fr] lg:gap-20"}`}>
+          <div className={narrow ? "flex flex-col items-center" : undefined}>
+            <h1 className={`${narrow ? "max-w-[14ch]" : "max-w-[12ch]"} text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]`}>
               <span className="block">Turn any bank CSV</span>
               <span className="block text-muted-foreground">into a clear monthly budget.</span>
             </h1>
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className={`mt-8 flex flex-wrap gap-2 ${narrow ? "justify-center" : ""}`}>
               <a href="#upload" className={buttonVariants({ size: "lg" })}>
                 Categorize a CSV <ArrowRight data-icon="inline-end" />
               </a>
@@ -96,7 +183,10 @@ function BudgetingLandingPage() {
             </div>
           </div>
 
-          <div id="upload" className="scroll-mt-24">
+          <div id="upload" className={`scroll-mt-24 ${narrow ? "w-full max-w-3xl text-left" : ""}`}>
+            {narrow ? (
+              <NarrowHeroUpload />
+            ) : (
             <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_9.5rem] xl:items-end">
               <div className="overflow-hidden rounded-lg border border-border bg-card shadow-floating">
               <div className="flex items-center justify-between border-b border-border px-4 py-3">
@@ -174,20 +264,21 @@ function BudgetingLandingPage() {
                 ))}
               </div>
             </div>
+            )}
           </div>
         </section>
 
         <div className="border-y border-border">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-9 gap-y-3 px-5 py-5 type-caption text-muted-foreground md:px-8">
+          <div className={`mx-auto flex ${contentWidth} flex-wrap items-center justify-center gap-x-9 gap-y-3 px-5 py-5 type-caption text-muted-foreground md:px-8`}>
             <span>Chase</span><span>Capital One</span><span>American Express</span><span>Wells Fargo</span><span>Citi</span><span>Schwab</span><span>SoFi</span><span>Any CSV export</span>
           </div>
         </div>
 
         <section id="product" className="scroll-mt-20 border-b border-border">
-          <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-            <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
-              <div>
-                <h2 className="max-w-[15ch] type-display">
+          <div className={`mx-auto ${contentWidth} px-5 py-20 md:px-8 md:py-28`}>
+            <div className={`grid gap-12 ${narrow ? "" : "lg:grid-cols-[0.72fr_1.28fr] lg:gap-20"}`}>
+              <div className={narrow ? "text-center" : undefined}>
+                <h2 className={`max-w-[15ch] type-display ${narrow ? "mx-auto" : ""}`}>
                   <span className="block">From export to budget.</span>
                   <span className="block text-muted-foreground">In under two minutes.</span>
                 </h2>
@@ -291,8 +382,8 @@ function BudgetingLandingPage() {
         </section>
 
         <section className="border-b border-border bg-secondary/35">
-          <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-            <h2 className="max-w-[19ch] type-display">
+          <div className={`mx-auto ${contentWidth} px-5 py-20 md:px-8 md:py-28`}>
+            <h2 className={`max-w-[19ch] type-display ${narrow ? "mx-auto text-center" : ""}`}>
               <span className="block">Categorize, combine, and understand.</span>
               <span className="block text-muted-foreground">Without the spreadsheet work.</span>
             </h2>
@@ -362,10 +453,10 @@ function BudgetingLandingPage() {
         </section>
 
         <section id="privacy" className="scroll-mt-20 bg-foreground text-background">
-          <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
-            <div>
-              <LockKeyhole className="size-6" />
-              <h2 className="mt-8 max-w-[12ch] type-display">
+          <div className={`mx-auto grid ${contentWidth} gap-14 px-5 py-20 md:px-8 md:py-28 ${narrow ? "" : "lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"}`}>
+            <div className={narrow ? "text-center" : undefined}>
+              <LockKeyhole className={`size-6 ${narrow ? "mx-auto" : ""}`} />
+              <h2 className={`mt-8 max-w-[12ch] type-display ${narrow ? "mx-auto" : ""}`}>
                 <span className="block">No bank login.</span>
                 <span className="block text-background/55">No stored statements.</span>
               </h2>
@@ -386,9 +477,9 @@ function BudgetingLandingPage() {
         </section>
 
         <section id="questions" className="scroll-mt-20 border-b border-border">
-          <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
-            <div>
-              <h2 className="max-w-[14ch] type-display">
+          <div className={`mx-auto grid ${contentWidth} gap-12 px-5 py-20 md:px-8 md:py-28 ${narrow ? "" : "lg:grid-cols-[0.65fr_1.35fr] lg:gap-20"}`}>
+            <div className={narrow ? "text-center" : undefined}>
+              <h2 className={`max-w-[14ch] type-display ${narrow ? "mx-auto" : ""}`}>
                 <span className="block">Everything to know</span>
                 <span className="block text-muted-foreground">before uploading a statement.</span>
               </h2>
@@ -402,21 +493,21 @@ function BudgetingLandingPage() {
                 ["What happens to my file?", "The file is encrypted in transit, processed for categorization, and returned to your browser. The source statement and transaction history are not saved."],
               ].map(([question, answer], index) => (
                 <details key={question} className="group border-b border-border" open={index === 0}>
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 type-label marker:hidden">
+                  <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:hidden ${narrow ? "text-[18px] font-medium leading-7" : "type-label"}`}>
                     {question}
                     <span className="text-muted-foreground transition-transform group-open:rotate-45">+</span>
                   </summary>
-                  <p className="max-w-2xl pb-5 pr-10 type-body text-muted-foreground">{answer}</p>
+                  <p className={`max-w-2xl pb-5 pr-10 text-muted-foreground ${narrow ? "text-[18px] leading-7" : "type-body"}`}>{answer}</p>
                 </details>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-          <div className="grid gap-10 rounded-lg border border-border bg-secondary/45 p-6 md:grid-cols-[1fr_auto] md:items-end md:p-10">
+        <section className={`mx-auto ${contentWidth} px-5 py-20 md:px-8 md:py-28`}>
+          <div className={`grid gap-10 rounded-lg border border-border bg-secondary/45 p-6 md:p-10 ${narrow ? "justify-items-center text-center" : "md:grid-cols-[1fr_auto] md:items-end"}`}>
             <div>
-              <h2 className="max-w-[18ch] type-display">
+              <h2 className={`max-w-[18ch] type-display ${narrow ? "mx-auto" : ""}`}>
                 <span className="block">Your next statement is already a budget.</span>
                 <span className="block text-muted-foreground">See it without connecting your bank.</span>
               </h2>
@@ -429,9 +520,9 @@ function BudgetingLandingPage() {
       </main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-10 md:grid-cols-[1fr_auto] md:items-end md:px-8">
+        <div className={`mx-auto grid ${contentWidth} gap-10 px-5 py-10 md:grid-cols-[1fr_auto] md:items-end md:px-8`}>
           <div>
-            <a href="/budgeting" className="type-label">Bank CSV</a>
+            <a href={pageHref} className="type-label">Bank CSV</a>
           </div>
           <nav className="flex flex-wrap gap-x-5 gap-y-2 type-caption text-muted-foreground" aria-label="Footer navigation">
             <a href="#product" className="hover:text-foreground">Product</a>
@@ -445,4 +536,12 @@ function BudgetingLandingPage() {
   )
 }
 
-export { BudgetingLandingPage }
+function BudgetingLandingPage() {
+  return <BudgetingLandingPageLayout />
+}
+
+function NarrowBudgetingLandingPage() {
+  return <BudgetingLandingPageLayout narrow />
+}
+
+export { BudgetingLandingPage, NarrowBudgetingLandingPage }

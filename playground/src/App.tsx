@@ -95,6 +95,9 @@ export function App() {
                 <a href="/budgeting" className={buttonVariants({ variant: "ghost" })}>
                   Budgeting site
                 </a>
+                <a href="/budgeting-narrow" className={buttonVariants({ variant: "ghost" })}>
+                  Narrow budgeting site
+                </a>
                 <a href="/finance-blocks" className={buttonVariants({ variant: "ghost" })}>
                   Finance blocks
                 </a>
