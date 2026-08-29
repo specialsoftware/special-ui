@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import Uppy from "@uppy/core"
 import { UppyContextProvider } from "@uppy/react"
-import { ArrowRight, FileSpreadsheet, LockKeyhole, Moon, RotateCcw, Sun } from "lucide-react"
+import { ArrowRight, FileSpreadsheet, LockKeyhole, Moon, Plus, RotateCcw, Sun, X } from "lucide-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
 import { UppyFileUpload } from "@/components/ui/file-upload"
+import { cn } from "@/lib/utils"
 
 function wait(milliseconds: number) {
   return new Promise((resolve) => window.setTimeout(resolve, milliseconds))
@@ -12,7 +13,7 @@ function wait(milliseconds: number) {
 
 function createHeroUppy() {
   const uppy = new Uppy({
-    id: "budgeting-narrow-hero",
+    id: "budgeting-2-hero",
     autoProceed: false,
     allowMultipleUploadBatches: true,
     restrictions: {
@@ -113,12 +114,14 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
 
   useEffect(() => {
     document.title = narrow
-      ? "Bank CSV — Focused layout"
+      ? "Bank CSV — See where your money went"
       : "Bank CSV — A clear budget from any bank statement"
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     description?.setAttribute(
       "content",
-      "Turn bank CSV exports into a private, organized budget without connecting your bank account."
+      narrow
+        ? "Combine bank CSV exports into a categorized view of your monthly spending without connecting your bank account."
+        : "Turn bank CSV exports into a private, organized budget without connecting your bank account."
     )
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -127,7 +130,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
   }, [narrow])
 
   const contentWidth = narrow ? "max-w-4xl" : "max-w-7xl"
-  const pageHref = narrow ? "/budgeting-narrow" : "/budgeting"
+  const pageHref = narrow ? "/budgeting-2" : "/budgeting"
 
   function replayDemo() {
     setOrganized(false)
@@ -147,12 +150,11 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
             Bank CSV
           </a>
           <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
-            <a href="#product" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Product</a>
-            <a href="#privacy" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Privacy</a>
-            <a href="#questions" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Questions</a>
+            <a href="#product" className={narrow ? buttonVariants({ variant: "ghost", size: "sm" }) : "rounded-full px-3 py-2 type-label hover:bg-secondary"}>Product</a>
+            <a href="#privacy" className={narrow ? buttonVariants({ variant: "ghost", size: "sm" }) : "rounded-full px-3 py-2 type-label hover:bg-secondary"}>Privacy</a>
+            <a href="#questions" className={narrow ? buttonVariants({ variant: "ghost", size: "sm" }) : "rounded-full px-3 py-2 type-label hover:bg-secondary"}>Questions</a>
           </nav>
           <div className={`flex items-center gap-1.5 ${narrow ? "justify-end" : ""}`}>
-            <a href="#" className="hidden rounded-full px-3 py-2 type-label hover:bg-secondary sm:block">Sign in</a>
             <Button
               variant="ghost"
               size="icon-sm"
@@ -161,6 +163,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
             >
               {dark ? <Sun /> : <Moon />}
             </Button>
+            <a href="#" className={narrow ? cn(buttonVariants({ variant: "ghost", size: "sm" }), "hidden sm:inline-flex") : "hidden rounded-full px-3 py-2 type-label hover:bg-secondary sm:block"}>Sign in</a>
             {!narrow && <a href="#upload" className={buttonVariants({ size: "sm" })}>Try it free</a>}
           </div>
         </div>
@@ -169,12 +172,12 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
       <main>
         <section className={`mx-auto grid ${contentWidth} items-center gap-14 px-5 pb-16 pt-16 md:px-8 md:pb-24 md:pt-24 ${narrow ? "justify-items-center text-center" : "lg:grid-cols-[0.82fr_1.18fr] lg:gap-20"}`}>
           <div className={narrow ? "flex flex-col items-center" : undefined}>
-            <h1 className={`${narrow ? "max-w-[16ch]" : "max-w-[12ch]"} text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]`}>
+            <h1 className={narrow ? "max-w-[20ch] type-display" : "max-w-[12ch] text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]"}>
               <span className="block">{narrow ? "Upload your bank CSVs." : "Turn any bank CSV"}</span>
               <span className="block text-muted-foreground">{narrow ? "See where your money went." : "into a clear monthly budget."}</span>
             </h1>
             {narrow && (
-              <p className="mt-6 max-w-[52ch] type-body text-muted-foreground">
+              <p className="mt-6 max-w-[52ch] type-prose text-muted-foreground">
                 Combine transactions from every account into one categorized monthly view—without connecting your bank.
               </p>
             )}
@@ -283,7 +286,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 </h2>
               </div>
               <div>
-                <p className="type-body text-muted-foreground">
+                <p className="type-prose text-muted-foreground">
                   Chase, Capital One, Amex, Wells Fargo, Citi, Schwab, and SoFi are common examples—not a fixed integration list. Export transactions from checking, savings, or credit cards. No bank login or live connection required.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-4 type-caption text-foreground">
@@ -521,11 +524,18 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 ["What happens to my file?", "The file is encrypted in transit, processed for categorization, and returned to your browser. The source statement and transaction history are not saved."],
               ].map(([question, answer], index) => (
                 <details key={question} className="group border-b border-border" open={index === 0}>
-                  <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:hidden ${narrow ? "text-[18px] font-medium leading-7" : "type-label"}`}>
+                  <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:hidden ${narrow ? "type-heading" : "type-label"}`}>
                     {question}
-                    <span className={`shrink-0 text-muted-foreground transition-transform group-open:rotate-45 ${narrow ? "grid size-8 place-items-center text-[24px] font-light leading-none group-open:text-[28px] group-open:font-normal" : ""}`} aria-hidden="true">+</span>
+                    {narrow ? (
+                      <span className="grid size-8 shrink-0 place-items-center text-muted-foreground" aria-hidden="true">
+                        <Plus className="size-5 group-open:hidden" />
+                        <X className="hidden size-5 group-open:block" />
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground transition-transform group-open:rotate-45">+</span>
+                    )}
                   </summary>
-                  <p className={`max-w-2xl pb-5 pr-10 text-muted-foreground ${narrow ? "text-[18px] leading-7" : "type-body"}`}>{answer}</p>
+                  <p className={`max-w-2xl pb-5 pr-10 text-muted-foreground ${narrow ? "type-prose" : "type-body"}`}>{answer}</p>
                 </details>
               ))}
             </div>
@@ -536,12 +546,12 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
           <div className={`grid gap-10 rounded-lg border border-border bg-secondary/45 p-6 md:p-10 ${narrow ? "justify-items-center text-center" : "md:grid-cols-[1fr_auto] md:items-end"}`}>
             <div>
               <h2 className={`max-w-[18ch] type-display ${narrow ? "mx-auto" : ""}`}>
-                <span className="block">Your next statement is already a budget.</span>
-                <span className="block text-muted-foreground">See it without connecting your bank.</span>
+                <span className="block">{narrow ? "Your statements already tell the story." : "Your next statement is already a budget."}</span>
+                <span className="block text-muted-foreground">{narrow ? "See the month clearly without connecting your bank." : "See it without connecting your bank."}</span>
               </h2>
             </div>
             <a href="#upload" className={buttonVariants({ size: "lg" })}>
-              Try your first file <ArrowRight data-icon="inline-end" />
+              {narrow ? "Upload statements" : "Try your first file"} <ArrowRight data-icon="inline-end" />
             </a>
           </div>
         </section>
@@ -568,8 +578,8 @@ function BudgetingLandingPage() {
   return <BudgetingLandingPageLayout />
 }
 
-function NarrowBudgetingLandingPage() {
+function Budgeting2LandingPage() {
   return <BudgetingLandingPageLayout narrow />
 }
 
-export { BudgetingLandingPage, NarrowBudgetingLandingPage }
+export { Budgeting2LandingPage, BudgetingLandingPage }
