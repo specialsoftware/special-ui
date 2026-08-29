@@ -523,7 +523,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 <details key={question} className="group border-b border-border" open={index === 0}>
                   <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:hidden ${narrow ? "text-[18px] font-medium leading-7" : "type-label"}`}>
                     {question}
-                    <span className={`shrink-0 text-muted-foreground transition-transform group-open:rotate-45 ${narrow ? "grid size-8 place-items-center text-[24px] font-light leading-none" : ""}`} aria-hidden="true">+</span>
+                    <span className={`shrink-0 text-muted-foreground transition-transform group-open:rotate-45 ${narrow ? "grid size-8 place-items-center text-[24px] font-light leading-none group-open:text-[28px] group-open:font-normal" : ""}`} aria-hidden="true">+</span>
                   </summary>
                   <p className={`max-w-2xl pb-5 pr-10 text-muted-foreground ${narrow ? "text-[18px] leading-7" : "type-body"}`}>{answer}</p>
                 </details>
