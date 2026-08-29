@@ -80,7 +80,7 @@ function NarrowHeroUpload() {
         variant="field"
         title="Drop bank statements"
         note="CSV · Up to 10 files · 20 MB each"
-        className="border-b-0 [&_[role=button]]:border-b-0"
+        className="border-b-0 [&_[data-slot=button]]:h-8 [&_[data-slot=button]]:gap-1.5 [&_[data-slot=button]]:px-3.5 [&_[data-slot=button]]:type-caption [&_[role=button]]:border-b-0"
       />
     </UppyContextProvider>
   )
@@ -182,10 +182,10 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
               </p>
             )}
             <div className={`mt-8 flex flex-wrap gap-2 ${narrow ? "justify-center" : ""}`}>
-              <a href="#upload" className={buttonVariants({ size: "lg" })}>
+              <a href="#upload" className={buttonVariants({ size: narrow ? "sm" : "lg" })}>
                 {narrow ? "Upload statements" : "Categorize a CSV"} <ArrowRight data-icon="inline-end" />
               </a>
-              <a href="#product" className={buttonVariants({ variant: "outline", size: "lg" })}>
+              <a href="#product" className={buttonVariants({ variant: "outline", size: narrow ? "sm" : "lg" })}>
                 {narrow ? "See a sample month" : "See how it works"}
               </a>
             </div>
@@ -550,7 +550,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 <span className="block text-muted-foreground">{narrow ? "See the month clearly without connecting your bank." : "See it without connecting your bank."}</span>
               </h2>
             </div>
-            <a href="#upload" className={buttonVariants({ size: "lg" })}>
+            <a href="#upload" className={buttonVariants({ size: narrow ? "sm" : "lg" })}>
               {narrow ? "Upload statements" : "Try your first file"} <ArrowRight data-icon="inline-end" />
             </a>
           </div>

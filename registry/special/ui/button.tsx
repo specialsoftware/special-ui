@@ -30,7 +30,7 @@ const buttonVariants = cva(
         link: "h-auto px-0 text-foreground underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-8 gap-1.5 px-2.5 type-caption",
+        sm: "h-8 gap-1.5 px-3.5 type-caption",
         default: "h-9 gap-2 px-3.5",
         lg: "h-10 gap-2 px-4 type-body",
         icon: "size-9",
