@@ -137,7 +137,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
   return (
     <div className={`${dark ? "dark" : ""} special-ui-theme min-h-screen bg-background text-foreground`}>
       <header className="border-b border-border bg-background">
-        <div className={`mx-auto flex h-16 ${contentWidth} items-center justify-between px-5 md:px-8`}>
+        <div className={`mx-auto h-16 ${contentWidth} items-center px-5 md:px-8 ${narrow ? "grid grid-cols-[1fr_auto_1fr]" : "flex justify-between"}`}>
           <a href={pageHref} className="flex items-center gap-2.5 type-label">
             <span className="grid size-5 grid-cols-2 gap-px rounded-sm bg-foreground p-1" aria-hidden="true">
               <span className="bg-background" />
@@ -151,7 +151,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
             <a href="#privacy" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Privacy</a>
             <a href="#questions" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Questions</a>
           </nav>
-          <div className="flex items-center gap-1.5">
+          <div className={`flex items-center gap-1.5 ${narrow ? "justify-end" : ""}`}>
             <a href="#" className="hidden rounded-full px-3 py-2 type-label hover:bg-secondary sm:block">Sign in</a>
             <Button
               variant="ghost"
@@ -161,7 +161,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
             >
               {dark ? <Sun /> : <Moon />}
             </Button>
-            <a href="#upload" className={buttonVariants({ size: "sm" })}>Try it free</a>
+            {!narrow && <a href="#upload" className={buttonVariants({ size: "sm" })}>Try it free</a>}
           </div>
         </div>
       </header>
@@ -169,16 +169,21 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
       <main>
         <section className={`mx-auto grid ${contentWidth} items-center gap-14 px-5 pb-16 pt-16 md:px-8 md:pb-24 md:pt-24 ${narrow ? "justify-items-center text-center" : "lg:grid-cols-[0.82fr_1.18fr] lg:gap-20"}`}>
           <div className={narrow ? "flex flex-col items-center" : undefined}>
-            <h1 className={`${narrow ? "max-w-[14ch]" : "max-w-[12ch]"} text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]`}>
-              <span className="block">Turn any bank CSV</span>
-              <span className="block text-muted-foreground">into a clear monthly budget.</span>
+            <h1 className={`${narrow ? "max-w-[16ch]" : "max-w-[12ch]"} text-[clamp(2.75rem,5.5vw,4.75rem)] font-medium leading-[0.96] tracking-[-0.06em]`}>
+              <span className="block">{narrow ? "Upload your bank CSVs." : "Turn any bank CSV"}</span>
+              <span className="block text-muted-foreground">{narrow ? "See where your money went." : "into a clear monthly budget."}</span>
             </h1>
+            {narrow && (
+              <p className="mt-6 max-w-[52ch] type-body text-muted-foreground">
+                Combine transactions from every account into one categorized monthly view—without connecting your bank.
+              </p>
+            )}
             <div className={`mt-8 flex flex-wrap gap-2 ${narrow ? "justify-center" : ""}`}>
               <a href="#upload" className={buttonVariants({ size: "lg" })}>
-                Categorize a CSV <ArrowRight data-icon="inline-end" />
+                {narrow ? "Upload statements" : "Categorize a CSV"} <ArrowRight data-icon="inline-end" />
               </a>
               <a href="#product" className={buttonVariants({ variant: "outline", size: "lg" })}>
-                See how it works
+                {narrow ? "See a sample month" : "See how it works"}
               </a>
             </div>
           </div>
@@ -268,18 +273,40 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
           </div>
         </section>
 
-        <div className="border-y border-border">
-          <div className={`mx-auto flex ${contentWidth} flex-wrap items-center justify-center gap-x-9 gap-y-3 px-5 py-5 type-caption text-muted-foreground md:px-8`}>
-            <span>Chase</span><span>Capital One</span><span>American Express</span><span>Wells Fargo</span><span>Citi</span><span>Schwab</span><span>SoFi</span><span>Any CSV export</span>
+        {narrow ? (
+          <section className="border-y border-border" aria-labelledby="supported-banks-title">
+            <div className={`mx-auto grid ${contentWidth} gap-8 px-5 py-10 md:grid-cols-[0.8fr_1.2fr] md:items-center md:px-8`}>
+              <div>
+                <p className="type-caption text-subtle-foreground">Supported bank exports</p>
+                <h2 id="supported-banks-title" className="mt-3 max-w-[18ch] type-heading">
+                  If your bank exports CSV, it works.
+                </h2>
+              </div>
+              <div>
+                <p className="type-body text-muted-foreground">
+                  Chase, Capital One, Amex, Wells Fargo, Citi, Schwab, and SoFi are common examples—not a fixed integration list. Export transactions from checking, savings, or credit cards. No bank login or live connection required.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-4 type-caption text-foreground">
+                  <span>Chase</span><span>Capital One</span><span>Amex</span><span>Wells Fargo</span><span>Citi</span><span>Schwab</span><span>SoFi</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <div className="border-y border-border">
+            <div className={`mx-auto flex ${contentWidth} flex-wrap items-center justify-center gap-x-9 gap-y-3 px-5 py-5 type-caption text-muted-foreground md:px-8`}>
+              <span>Chase</span><span>Capital One</span><span>American Express</span><span>Wells Fargo</span><span>Citi</span><span>Schwab</span><span>SoFi</span><span>Any CSV export</span>
+            </div>
           </div>
-        </div>
+        )}
 
         <section id="product" className="scroll-mt-20 border-b border-border">
           <div className={`mx-auto ${contentWidth} px-5 py-20 md:px-8 md:py-28`}>
+            <div className={narrow ? "mx-auto max-w-3xl" : undefined}>
             <div className={`grid gap-12 ${narrow ? "" : "lg:grid-cols-[0.72fr_1.28fr] lg:gap-20"}`}>
               <div className={narrow ? "text-center" : undefined}>
                 <h2 className={`max-w-[15ch] type-display ${narrow ? "mx-auto" : ""}`}>
-                  <span className="block">From export to budget.</span>
+                  <span className="block">{narrow ? "From export to spending overview." : "From export to budget."}</span>
                   <span className="block text-muted-foreground">In under two minutes.</span>
                 </h2>
               </div>
@@ -287,7 +314,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 {[
                   ["1", "Export a CSV from any bank or card."],
                   ["2", "Drop in one file or combine several."],
-                  ["3", "Review a clean budget and export it anywhere."],
+                  ["3", narrow ? "See where your money went, then plan what comes next." : "Review a clean budget and export it anywhere."],
                 ].map(([number, title]) => (
                   <li key={number} className="border-b border-border py-5 sm:border-r sm:px-5">
                     <p className="type-caption text-subtle-foreground">{number}</p>
@@ -377,6 +404,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                   </button>
                 </aside>
               </div>
+            </div>
             </div>
           </div>
         </section>
@@ -495,7 +523,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 <details key={question} className="group border-b border-border" open={index === 0}>
                   <summary className={`flex cursor-pointer list-none items-center justify-between gap-6 py-5 marker:hidden ${narrow ? "text-[18px] font-medium leading-7" : "type-label"}`}>
                     {question}
-                    <span className="text-muted-foreground transition-transform group-open:rotate-45">+</span>
+                    <span className={`shrink-0 text-muted-foreground transition-transform group-open:rotate-45 ${narrow ? "grid size-8 place-items-center text-[24px] font-light leading-none" : ""}`} aria-hidden="true">+</span>
                   </summary>
                   <p className={`max-w-2xl pb-5 pr-10 text-muted-foreground ${narrow ? "text-[18px] leading-7" : "type-body"}`}>{answer}</p>
                 </details>
