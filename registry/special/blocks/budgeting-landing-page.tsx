@@ -135,7 +135,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
   }
 
   return (
-    <div className={`${dark ? "dark" : ""} special-ui-theme min-h-screen bg-background text-foreground`}>
+    <div className={`${dark ? "dark" : ""} special-ui-theme min-h-screen bg-background text-foreground ${narrow ? "[&_.type-body:not(a):not(button):not([class*='text-background'])]:text-muted-foreground [&_.type-caption:not(a):not(button):not([class*='text-background'])]:text-subtle-foreground [&_.type-label:not(a):not(button):not([class*='text-background'])]:text-muted-foreground" : ""}`}>
       <header className="border-b border-border bg-background">
         <div className={`mx-auto h-16 ${contentWidth} items-center px-5 md:px-8 ${narrow ? "grid grid-cols-[1fr_auto_1fr]" : "flex justify-between"}`}>
           <a href={pageHref} className="flex items-center gap-2.5 type-label">
@@ -146,13 +146,13 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
             </span>
             Bank CSV
           </a>
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+          <nav className={`hidden items-center gap-1 md:flex ${narrow ? "text-muted-foreground" : ""}`} aria-label="Primary navigation">
             <a href="#product" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Product</a>
             <a href="#privacy" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Privacy</a>
             <a href="#questions" className="rounded-full px-3 py-2 type-label hover:bg-secondary">Questions</a>
           </nav>
           <div className={`flex items-center gap-1.5 ${narrow ? "justify-end" : ""}`}>
-            <a href="#" className="hidden rounded-full px-3 py-2 type-label hover:bg-secondary sm:block">Sign in</a>
+            <a href="#" className={`hidden rounded-full px-3 py-2 type-label hover:bg-secondary sm:block ${narrow ? "text-muted-foreground hover:text-foreground" : ""}`}>Sign in</a>
             <Button
               variant="ghost"
               size="icon-sm"
@@ -497,7 +497,7 @@ function BudgetingLandingPageLayout({ narrow = false }: { narrow?: boolean }) {
                 "Export anytime. Nothing is locked in.",
               ].map((title, index) => (
                 <div key={title} className={`border-background/20 py-6 sm:p-6 ${index < 2 ? "border-b" : ""} ${index % 2 === 0 ? "sm:border-r" : ""}`}>
-                  <h3 className="type-label">{title}</h3>
+                  <h3 className={narrow ? "type-label text-background/70" : "type-label"}>{title}</h3>
                 </div>
               ))}
             </div>
