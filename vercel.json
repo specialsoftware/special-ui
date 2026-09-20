@@ -5,6 +5,7 @@
   "buildCommand": "pnpm --filter playground build",
   "outputDirectory": "playground/dist",
   "rewrites": [
+    { "source": "/soft-ui-studies", "destination": "/index.html" },
     { "source": "/bankcsv-landing", "destination": "/index.html" },
     { "source": "/social-proof-studies", "destination": "/index.html" },
     { "source": "/pricing-studies", "destination": "/index.html" },
