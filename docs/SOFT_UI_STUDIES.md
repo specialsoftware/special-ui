@@ -1,6 +1,6 @@
 # A softer Special UI
 
-Preview: `/soft-ui-studies`. Three independent, interactive finance studies use the same sample data. Month changes, category selection, savings contributions, and goal naming work locally. No account is connected and changes are not persisted.
+Preview: `/soft-ui-studies`. Four independent, interactive finance studies use the same sample data. Month changes, category selection, savings contributions, and goal naming work locally. No account is connected and changes are not persisted.
 
 ## What kind of design is this?
 
@@ -44,3 +44,17 @@ Static asset URLs may change with upstream deployments.
 The comparison button removes selected surface treatments and restores original-like geometry within the new layouts. It is not a reproduction of the existing homepage. The studies deliberately explore surface/spacing differences; elaborate sound and spring animations are not reproduced.
 
 Implementation reuses Button, Card, and Input; CSS and token overrides are scoped to the study page. The production theme remains unchanged. Card does not consume the existing shadow token, so study elevation is applied explicitly. These are light-mode experiments.
+
+
+## Dust extension — September 20, 2026
+
+**Friendly technical minimalism / soft enterprise editorial** describes Dust’s mix of strong typography, precise modular structure, and welcoming controls. The public homepage uses Geist (with Geist Mono in supporting roles), white and warm stone neutrals, blue gradient actions, large tightly tracked headings, numbered feature rows, and fine separators. Rounded rectangular buttons and restrained shadows add tactility; it is not uniformly pill-shaped or pastel.
+
+The fourth exploration, **Friendly technical**, translates these patterns into the same finance content: a larger introductory heading, numbered overview/breakdown/savings modules, a fine two-column divider, warm-white surfaces, a 24px savings card, blue rounded-rectangle actions, and small colored category tiles. It retains Special’s installed Inter family rather than adding Geist. The page remains an independent interpretation, not a reproduction of Dust’s product or branding.
+
+Evidence: public HTML/CSS and the coordinated-flow illustration were inspected. Live animation playback was not verified.
+
+- [Dust homepage](https://dust.tt/)
+- [Dust brand resources](https://dust.tt/home/brand-resources)
+- [Dust public stylesheet](https://dust.tt/_next/static/css/5458dbe4a5e1213a.css)
+- [Dust workflow illustration](https://dust.tt/static/landing/home/coordinated-flow.png)

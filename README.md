@@ -22,7 +22,7 @@ inside every consuming application.
 - An alternative Bank CSV Categorizer landing page, previewed at `/bankcsv-landing`
 - Five social proof systems, previewed at `/social-proof-studies`
 - Five pricing systems, previewed at `/pricing-studies`
-- Three lighter, softer interface explorations, previewed at `/soft-ui-studies`
+- Four lighter, softer interface explorations, previewed at `/soft-ui-studies`
 - A realistic calibration playground rather than isolated component examples
 - A GitHub-compatible shadcn registry
 

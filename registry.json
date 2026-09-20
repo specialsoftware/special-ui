@@ -226,7 +226,7 @@
       "name": "soft-ui-studies-page",
       "type": "registry:block",
       "title": "Soft UI Studies",
-      "description": "Three scoped, interactive explorations of soft editorial, tactile utility, and rounded workspace patterns.",
+      "description": "Four scoped, interactive explorations of soft editorial, tactile utility, rounded workspace, and Dust-inspired technical patterns.",
       "dependencies": [
         "lucide-react"
       ],
