@@ -221,6 +221,33 @@
           "type": "registry:block"
         }
       ]
+    },
+    {
+      "name": "soft-ui-studies-page",
+      "type": "registry:block",
+      "title": "Soft UI Studies",
+      "description": "Three scoped, interactive explorations of soft editorial, tactile utility, and rounded workspace patterns.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "card",
+        "input",
+        "special-theme"
+      ],
+      "files": [
+        {
+          "path": "registry/special/blocks/soft-ui-studies-page.tsx",
+          "type": "registry:block",
+          "target": "components/blocks/soft-ui-studies-page.tsx"
+        },
+        {
+          "path": "registry/special/blocks/soft-ui-studies.css",
+          "type": "registry:file",
+          "target": "components/blocks/soft-ui-studies.css"
+        }
+      ]
     }
   ]
 }

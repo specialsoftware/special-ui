@@ -86,6 +86,9 @@ export function App() {
                 <Button>
                   Explore components <ArrowRight data-icon="inline-end" />
                 </Button>
+                <a href="/soft-ui-studies" className={buttonVariants({ variant: "outline" })}>
+                  Soft UI studies
+                </a>
                 <a href="/blog" className={buttonVariants({ variant: "outline" })}>
                   Read article template
                 </a>
