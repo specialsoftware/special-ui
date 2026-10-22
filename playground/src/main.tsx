@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/inter';
 import { App } from './App';
+import { EmilPage } from './EmilPage';
 import { BankCsvLandingPage } from '@/blocks/bankcsv-landing-page';
 import { BlogPage } from '@/blocks/blog-page';
 import { Budgeting2LandingPage, BudgetingLandingPage } from '@/blocks/budgeting-landing-page';
@@ -13,7 +14,9 @@ import { PricingStudiesPage } from '@/blocks/pricing-studies-page';
 import { SocialProofStudiesPage } from '@/blocks/social-proof-studies-page';
 import './index.css';
 
-const Page = window.location.pathname.startsWith('/bankcsv-landing')
+const Page = window.location.pathname.startsWith('/emil')
+  ? EmilPage
+  : window.location.pathname.startsWith('/bankcsv-landing')
   ? BankCsvLandingPage
   : window.location.pathname.startsWith('/social-proof-studies')
   ? SocialProofStudiesPage

@@ -83,6 +83,9 @@ export function App() {
                 the hierarchy; color is reserved for meaning.
               </p>
               <div className="mt-7 flex flex-wrap gap-2">
+                <a href="/emil" className={buttonVariants({ variant: "outline" })}>
+                  Design engineering iteration <ArrowRight data-icon="inline-end" />
+                </a>
                 <Button>
                   Explore components <ArrowRight data-icon="inline-end" />
                 </Button>
