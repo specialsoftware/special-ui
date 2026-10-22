@@ -20,6 +20,6 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./test/setup.ts'],
-    include: ['registry/*/**/*.test.{ts,tsx}'],
+    include: ['registry/*/**/*.test.{ts,tsx}', 'playground/src/**/*.test.{ts,tsx}'],
   },
 });
