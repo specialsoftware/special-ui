@@ -24,7 +24,7 @@ const neutralScale = [
   { label: "Canvas", light: "#FFFFFF", dark: "#0A0A0A", className: "bg-background" },
   { label: "Surface", light: "#F5F5F5", dark: "#171717", className: "bg-secondary" },
   { label: "Rule", light: "#E5E5E5", dark: "#292929", className: "bg-border" },
-  { label: "Muted", light: "#616161", dark: "#A3A3A3", className: "bg-muted-foreground" },
+  { label: "Muted", light: "#737373", dark: "#A3A3A3", className: "bg-muted-foreground" },
   { label: "Ink", light: "#111111", dark: "#F5F5F5", className: "bg-foreground" },
 ] as const
 

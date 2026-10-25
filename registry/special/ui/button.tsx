@@ -11,7 +11,7 @@ const buttonVariants = cva(
     "border border-transparent bg-clip-padding type-label outline-none",
     "transition-[color,background-color,border-color,box-shadow] duration-fast ease-special",
     "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/15",
-    "disabled:pointer-events-none disabled:opacity-45",
+    "disabled:pointer-events-none disabled:not-data-loading:opacity-45",
     "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/15",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   ],
@@ -19,7 +19,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-pressed",
+          "bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-pressed disabled:not-data-loading:bg-muted disabled:not-data-loading:text-muted-foreground disabled:not-data-loading:opacity-100",
         secondary:
           "border-border bg-secondary text-secondary-foreground hover:border-border-strong hover:bg-accent",
         outline:
